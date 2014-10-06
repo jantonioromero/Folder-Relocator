@@ -1,38 +1,32 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/foldersync_detail"
-	style="?android:attr/textAppearanceLarge"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:padding="16dp" >
-
-	<EditText
-		android:id="@+id/edit_alias"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="@string/syncAlias" />
-
-	<Button
-		android:id="@+id/button_source"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/syncSource" />
-
-	<Button
-		android:id="@+id/button_destination"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/syncDestination" />
+	android:layout_height="match_parent" >
 
 	<LinearLayout
+		android:id="@+id/foldersync_detail"
+		style="?android:attr/textAppearanceLarge"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal" >
+		android:orientation="vertical"
+		android:padding="16dp" >
 
-		<View
-			android:layout_width="0dp"
+		<EditText
+			android:id="@+id/edit_alias"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1" />
+			android:hint="@string/syncAlias" />
+
+		<Button
+			android:id="@+id/button_source"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/syncSource" />
+
+		<Button
+			android:id="@+id/button_destination"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/syncDestination" />
 
 		<CheckBox
 			android:id="@+id/check_includeSubDirs"
@@ -40,21 +34,11 @@
 			android:layout_height="wrap_content"
 			android:text="@string/syncIncludeSubDirs" />
 
-		<View
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1" />
-
 		<CheckBox
 			android:id="@+id/check_moveFiles"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/syncMoveFiles" />
-
-		<View
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:layout_weight="1" />
 	</LinearLayout>
 
-</LinearLayout>
+</ScrollView>

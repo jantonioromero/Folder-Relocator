@@ -6,6 +6,8 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
+import com.arreis.folderrelocator.datamodel.FolderSync;
+
 public class FolderSyncDetailActivity extends ActionBarActivity
 {
 	@Override
@@ -16,14 +18,15 @@ public class FolderSyncDetailActivity extends ActionBarActivity
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		if (savedInstanceState == null)
+		FolderSyncDetailFragment fragment = new FolderSyncDetailFragment();
+		FolderSync syncToEdit = (FolderSync) getIntent().getSerializableExtra(FolderSyncDetailFragment.ARG_FOLDERSYNC);
+		if (syncToEdit != null)
 		{
 			Bundle arguments = new Bundle();
-			arguments.putString(FolderSyncDetailFragment.ARG_FOLDERSYNC, getIntent().getStringExtra(FolderSyncDetailFragment.ARG_FOLDERSYNC));
-			FolderSyncDetailFragment fragment = new FolderSyncDetailFragment();
+			arguments.putSerializable(FolderSyncDetailFragment.ARG_FOLDERSYNC, syncToEdit);
 			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction().add(R.id.foldersync_detail_container, fragment).commit();
 		}
+		getSupportFragmentManager().beginTransaction().add(R.id.foldersync_detail_container, fragment).commit();
 	}
 	
 	@Override

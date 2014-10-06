@@ -41,7 +41,7 @@ public class FolderSyncDetailFragment extends Fragment
 	{
 		super.onCreate(savedInstanceState);
 		
-		if (getArguments().containsKey(ARG_FOLDERSYNC))
+		if (getArguments() != null && getArguments().containsKey(ARG_FOLDERSYNC))
 		{
 			mFolderSync = (FolderSync) getArguments().getSerializable(ARG_FOLDERSYNC);
 		}

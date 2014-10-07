@@ -1,4 +1,4 @@
-package com.arreis.folderrelocator;
+package com.arreis.folderrelocator.explorer;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,6 +7,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.arreis.folderrelocator.R;
+import com.arreis.folderrelocator.R.id;
 import com.arreis.util.AFileListManager;
 
 public class FolderCell extends FrameLayout

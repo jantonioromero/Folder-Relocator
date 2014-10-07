@@ -45,7 +45,7 @@ public class FolderSyncListFragment extends ListFragment
 		super.onCreate(savedInstanceState);
 		
 		mFolderSyncs = FolderSyncManager.getFolderSyncs(getActivity(), true);
-		setListAdapter(new FileListAdapter());
+		setListAdapter(new SyncListAdapter());
 	}
 	
 	@Override
@@ -117,7 +117,7 @@ public class FolderSyncListFragment extends ListFragment
 		mActivatedPosition = position;
 	}
 	
-	private class FileListAdapter extends BaseAdapter
+	private class SyncListAdapter extends BaseAdapter
 	{
 		@Override
 		public int getCount()

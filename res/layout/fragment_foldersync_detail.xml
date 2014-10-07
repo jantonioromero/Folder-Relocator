@@ -1,44 +1,58 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent" >
 
-	<LinearLayout
-		android:id="@+id/foldersync_detail"
-		style="?android:attr/textAppearanceLarge"
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:padding="16dp" >
+		android:layout_above="@+id/save_button"
+		android:layout_alignParentTop="true" >
 
-		<EditText
-			android:id="@+id/edit_alias"
+		<LinearLayout
+			android:id="@+id/foldersync_detail"
+			style="?android:attr/textAppearanceLarge"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:hint="@string/syncAlias" />
+			android:orientation="vertical"
+			android:padding="16dp" >
 
-		<Button
-			android:id="@+id/button_source"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/syncSource" />
+			<EditText
+				android:id="@+id/edit_alias"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:hint="@string/syncAlias" />
 
-		<Button
-			android:id="@+id/button_destination"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/syncDestination" />
+			<Button
+				android:id="@+id/button_source"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/syncSource" />
 
-		<CheckBox
-			android:id="@+id/check_includeSubDirs"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/syncIncludeSubDirs" />
+			<Button
+				android:id="@+id/button_destination"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/syncDestination" />
 
-		<CheckBox
-			android:id="@+id/check_moveFiles"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/syncMoveFiles" />
-	</LinearLayout>
+			<CheckBox
+				android:id="@+id/check_includeSubDirs"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/syncIncludeSubDirs" />
 
-</ScrollView>
+			<CheckBox
+				android:id="@+id/check_moveFiles"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/syncMoveFiles" />
+		</LinearLayout>
+	</ScrollView>
+
+	<Button
+		android:id="@+id/save_button"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:text="@string/save" />
+
+</RelativeLayout>

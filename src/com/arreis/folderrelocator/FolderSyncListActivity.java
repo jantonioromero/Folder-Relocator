@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.arreis.folderrelocator.autosync.ConfigureAutoSyncActivity;
+import com.arreis.folderrelocator.autosync.ConfigureAutoSyncFragment;
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncManager;
 

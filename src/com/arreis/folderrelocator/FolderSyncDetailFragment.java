@@ -15,6 +15,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
 import com.arreis.folderrelocator.datamodel.FolderSync;
+import com.arreis.folderrelocator.explorer.FolderListActivity;
 
 public class FolderSyncDetailFragment extends Fragment
 {
@@ -103,6 +104,15 @@ public class FolderSyncDetailFragment extends Fragment
 			{
 				mTempFolderSync.setMoveFiles(!mTempFolderSync.getMoveFiles());
 				updateUI();
+			}
+		});
+		
+		((Button) rootView.findViewById(R.id.save_button)).setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				// TODO: Guardar sync actualizado, volver a la pantalla anterior si es one-pane
 			}
 		});
 		

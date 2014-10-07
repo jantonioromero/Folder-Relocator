@@ -1,4 +1,4 @@
-package com.arreis.folderrelocator;
+package com.arreis.folderrelocator.explorer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.arreis.folderrelocator.R;
+import com.arreis.folderrelocator.R.id;
+import com.arreis.folderrelocator.R.layout;
 import com.arreis.util.AFileListManager;
 import com.arreis.util.AFileListManager.AFileListMode;
 

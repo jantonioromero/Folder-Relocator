@@ -1,4 +1,9 @@
-package com.arreis.folderrelocator;
+package com.arreis.folderrelocator.autosync;
+
+import com.arreis.folderrelocator.FolderSyncListActivity;
+import com.arreis.folderrelocator.R;
+import com.arreis.folderrelocator.R.id;
+import com.arreis.folderrelocator.R.layout;
 
 import android.content.Intent;
 import android.os.Bundle;

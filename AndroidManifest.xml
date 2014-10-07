@@ -24,12 +24,13 @@
 		</activity>
 		<activity
 			android:name=".FolderSyncDetailActivity"
-			android:parentActivityName=".FolderSyncListActivity" >
+			android:parentActivityName=".FolderSyncListActivity"
+			android:windowSoftInputMode="stateHidden" >
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value="com.arreis.folderrelocator.FolderSyncListActivity" />
 		</activity>
-		<activity android:name=".FolderListActivity" >
+		<activity android:name="com.arreis.folderrelocator.explorer.FolderListActivity" >
 		</activity>
 	</application>
 

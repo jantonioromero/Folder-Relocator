@@ -6,19 +6,28 @@ public class FolderSync implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = 7199431748208435892L;
 	
+	private long mId;
 	private String mAlias;
 	private String mSourcePath;
 	private String mDestinationPath;
 	private boolean mIncludeSubdirectories;
 	private boolean mMoveFiles;
 	
-	public FolderSync(String alias, String sourcePath, String destinationPath, boolean includeSubdirectories, boolean moveFiles)
+	private static long sNextId = 0;
+	
+	private FolderSync(long id, String alias, String sourcePath, String destinationPath, boolean includeSubdirectories, boolean moveFiles)
 	{
+		this.mId = id;
 		this.mAlias = alias;
 		this.mSourcePath = sourcePath;
 		this.mDestinationPath = destinationPath;
 		this.mIncludeSubdirectories = includeSubdirectories;
 		this.mMoveFiles = moveFiles;
+	}
+	
+	public FolderSync(String alias, String sourcePath, String destinationPath, boolean includeSubdirectories, boolean moveFiles)
+	{
+		this(sNextId++, alias, sourcePath, destinationPath, includeSubdirectories, moveFiles);
 	}
 	
 	public FolderSync(String alias, String sourcePath, String destinationPath)
@@ -33,12 +42,37 @@ public class FolderSync implements Serializable, Cloneable
 	
 	public FolderSync()
 	{
-		this(null, null, null, false, false);
+		this(-1, null, null, null, false, false);
 	}
 	
 	public FolderSync duplicate()
 	{
 		return new FolderSync(mAlias, mSourcePath, mDestinationPath, mIncludeSubdirectories, mMoveFiles);
+	}
+	
+	public boolean isValid()
+	{
+		return mId != -1;
+	}
+	
+	public void validate()
+	{
+		if (mId == -1)
+			mId = sNextId++;
+	}
+	
+	public void update(FolderSync otherSync)
+	{
+		this.mAlias = otherSync.getAlias();
+		this.mSourcePath = otherSync.getSourcePath();
+		this.mDestinationPath = otherSync.getDestinationPath();
+		this.mIncludeSubdirectories = otherSync.getIncludeSubdirectories();
+		this.mMoveFiles = otherSync.getMoveFiles();
+	}
+	
+	public long getId()
+	{
+		return mId;
 	}
 	
 	public String getAlias()

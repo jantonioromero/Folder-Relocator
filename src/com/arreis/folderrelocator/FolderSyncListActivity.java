@@ -10,12 +10,12 @@ import android.view.MenuItem;
 import com.arreis.folderrelocator.autosync.ConfigureAutoSyncActivity;
 import com.arreis.folderrelocator.autosync.ConfigureAutoSyncFragment;
 import com.arreis.folderrelocator.datamodel.FolderSync;
-import com.arreis.folderrelocator.datamodel.FolderSyncManager;
+import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
 public class FolderSyncListActivity extends FragmentActivity implements FolderSyncListFragment.Callbacks
 {
-	private static final int REQUEST_NEW_FOLDERSYNC = 10;
-	private static final int REQUEST_EDIT_FOLDERSYNC = 11;
+//	private static final int REQUEST_NEW_FOLDERSYNC = 10;
+//	private static final int REQUEST_EDIT_FOLDERSYNC = 11;
 	
 	private boolean mTwoPane;
 	
@@ -80,7 +80,8 @@ public class FolderSyncListActivity extends FragmentActivity implements FolderSy
 	{
 		FolderSync folderSync = null;
 		if (position != -1)
-			folderSync = FolderSyncManager.getFolderSyncs(this).get(position);
+//			folderSync = FolderSyncManager.getFolderSyncs(this).get(position);
+			folderSync = new FolderSyncDatabaseHelper(this).getFolderSyncs().get(position);
 		
 		if (mTwoPane)
 		{
@@ -102,5 +103,11 @@ public class FolderSyncListActivity extends FragmentActivity implements FolderSy
 			}
 			startActivity(intent);
 		}
+	}
+	
+	@Override
+	public void onItemUpdated(int position)
+	{
+		((FolderSyncListFragment) getSupportFragmentManager().findFragmentById(R.id.foldersync_list)).updateDBDataAndRefresh();
 	}
 }

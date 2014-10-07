@@ -10,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.arreis.folderrelocator.datamodel.FolderSync;
-import com.arreis.folderrelocator.datamodel.FolderSyncManager;
+import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
 public class FolderSyncListFragment extends ListFragment
 {
@@ -21,16 +20,24 @@ public class FolderSyncListFragment extends ListFragment
 	private Callbacks mCallbacks = sDummyCallbacks;
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 	private ArrayList<FolderSync> mFolderSyncs;
+	private SyncListAdapter mAdapter;
 	
 	public interface Callbacks
 	{
 		public void onItemSelected(int position);
+		
+		public void onItemUpdated(int position);
 	}
 	
 	private static Callbacks sDummyCallbacks = new Callbacks()
 	{
 		@Override
 		public void onItemSelected(int position)
+		{
+		}
+		
+		@Override
+		public void onItemUpdated(int position)
 		{
 		}
 	};
@@ -44,8 +51,8 @@ public class FolderSyncListFragment extends ListFragment
 	{
 		super.onCreate(savedInstanceState);
 		
-		mFolderSyncs = FolderSyncManager.getFolderSyncs(getActivity(), true);
-		setListAdapter(new SyncListAdapter());
+		mAdapter = new SyncListAdapter();
+		setListAdapter(mAdapter);
 	}
 	
 	@Override
@@ -70,6 +77,13 @@ public class FolderSyncListFragment extends ListFragment
 		}
 		
 		mCallbacks = (Callbacks) activity;
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		updateDBDataAndRefresh();
 	}
 	
 	@Override
@@ -117,12 +131,24 @@ public class FolderSyncListFragment extends ListFragment
 		mActivatedPosition = position;
 	}
 	
+	public void updateDBDataAndRefresh()
+	{
+		mFolderSyncs = new FolderSyncDatabaseHelper(getActivity()).getFolderSyncs(true);
+		mAdapter.notifyDataSetChanged();
+		
+	}
+	
 	private class SyncListAdapter extends BaseAdapter
 	{
 		@Override
 		public int getCount()
 		{
-			return mFolderSyncs.size();
+			int res = 0;
+			
+			if (mFolderSyncs != null)
+				res = mFolderSyncs.size();
+			
+			return res;
 		}
 		
 		@Override
@@ -140,13 +166,13 @@ public class FolderSyncListFragment extends ListFragment
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
-			TextView res = (TextView) convertView;
+			FolderSyncCell res = (FolderSyncCell) convertView;
 			if (res == null)
 			{
-				res = (TextView) LayoutInflater.from(getActivity()).inflate(android.R.layout.simple_list_item_activated_1, null);
+				res = (FolderSyncCell) LayoutInflater.from(getActivity()).inflate(R.layout.cell_foldersync, null);
 			}
 			
-			res.setText(getItem(position).getAlias());
+			res.setFolderSync(getItem(position));
 			
 			return res;
 		}

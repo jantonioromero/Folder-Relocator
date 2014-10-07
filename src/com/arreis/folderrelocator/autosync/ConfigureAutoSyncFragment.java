@@ -1,13 +1,12 @@
 package com.arreis.folderrelocator.autosync;
 
-import com.arreis.folderrelocator.R;
-import com.arreis.folderrelocator.R.layout;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.arreis.folderrelocator.R;
 
 public class ConfigureAutoSyncFragment extends Fragment
 {

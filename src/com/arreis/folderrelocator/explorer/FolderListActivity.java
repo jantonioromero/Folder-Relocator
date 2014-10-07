@@ -15,8 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.arreis.folderrelocator.R;
-import com.arreis.folderrelocator.R.id;
-import com.arreis.folderrelocator.R.layout;
 import com.arreis.util.AFileListManager;
 import com.arreis.util.AFileListManager.AFileListMode;
 

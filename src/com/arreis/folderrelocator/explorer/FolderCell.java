@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arreis.folderrelocator.R;
-import com.arreis.folderrelocator.R.id;
 import com.arreis.util.AFileListManager;
 
 public class FolderCell extends FrameLayout

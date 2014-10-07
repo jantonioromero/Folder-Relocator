@@ -15,6 +15,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
 import com.arreis.folderrelocator.datamodel.FolderSync;
+import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 import com.arreis.folderrelocator.explorer.FolderListActivity;
 
 public class FolderSyncDetailFragment extends Fragment
@@ -112,7 +113,15 @@ public class FolderSyncDetailFragment extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				// TODO: Guardar sync actualizado, volver a la pantalla anterior si es one-pane
+				mTempFolderSync.setAlias(mAliasEdit.getText().toString());
+				
+				FolderSyncDatabaseHelper helper = new FolderSyncDatabaseHelper(getActivity());
+				long rows = helper.update(mTempFolderSync);
+				if (rows == 0)
+					helper.insert(mTempFolderSync);
+				
+				if (getActivity() instanceof FolderSyncDetailActivity)
+					getActivity().finish();
 			}
 		});
 		
@@ -149,6 +158,5 @@ public class FolderSyncDetailFragment extends Fragment
 		mAliasEdit.setText(mFolderSync.getAlias() == null ? "" : mTempFolderSync.getAlias());
 		mSourceButton.setText(mTempFolderSync.getSourcePath() == null ? getString(R.string.syncSource) : String.format("%s - %s", getString(R.string.syncSource), mTempFolderSync.getSourcePath()));
 		mDestinationButton.setText(mTempFolderSync.getDestinationPath() == null ? getString(R.string.syncDestination) : String.format("%s - %s", getString(R.string.syncDestination), mTempFolderSync.getDestinationPath()));
-		
 	}
 }

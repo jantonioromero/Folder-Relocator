@@ -1,15 +1,13 @@
 package com.arreis.folderrelocator.autosync;
 
-import com.arreis.folderrelocator.FolderSyncListActivity;
-import com.arreis.folderrelocator.R;
-import com.arreis.folderrelocator.R.id;
-import com.arreis.folderrelocator.R.layout;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+
+import com.arreis.folderrelocator.FolderSyncListActivity;
+import com.arreis.folderrelocator.R;
 
 public class ConfigureAutoSyncActivity extends ActionBarActivity
 {

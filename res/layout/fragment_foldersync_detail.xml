@@ -45,6 +45,30 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/syncMoveFiles" />
+
+			<RadioGroup
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:checkedButton="@+id/noAutoSync_radio"
+				android:orientation="vertical" >
+
+				<RadioButton
+					android:id="@+id/noAutoSync_radio"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/dontAutosync" />
+
+				<RadioButton
+					android:id="@+id/autoSyncEvery_radio"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/autosyncEvery" />
+			</RadioGroup>
+
+			<Spinner
+				android:id="@+id/autosync_spinner"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" />
 		</LinearLayout>
 	</ScrollView>
 

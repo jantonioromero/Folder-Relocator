@@ -2,14 +2,19 @@
 <resources>
 
 	<string name="app_name">Folder Relocator</string>
+	<string name="autosyncEvery">Autosync every...</string>
+	<string name="dontAutosync">Don\'t autosync</string>
 	<string name="menu_autosync">Auto Sync</string>
 	<string name="menu_newSync">Add...</string>
 	<string name="save">Save</string>
 	<string name="select">Select</string>
+	<string name="synchronize">Synchronize</string>
 	<string name="syncAlias">Alias</string>
 	<string name="syncSource">Source</string>
 	<string name="syncDestination">Destination</string>
 	<string name="syncIncludeSubDirs">Include subfolders</string>
 	<string name="syncMoveFiles">Move contents (will be removed from source)</string>
+	<string name="error_noAlias">You must provide an alias for the sync.</string>
+	<string name="error_noSourceOrDest">You must provide a source and a destination folder for the sync.</string>
 
 </resources>

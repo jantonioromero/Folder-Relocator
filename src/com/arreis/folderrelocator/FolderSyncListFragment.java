@@ -11,10 +11,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.arreis.folderrelocator.FolderSyncCell.FolderSyncCellListener;
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
-public class FolderSyncListFragment extends ListFragment
+public class FolderSyncListFragment extends ListFragment implements FolderSyncCellListener
 {
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 	private Callbacks mCallbacks = sDummyCallbacks;
@@ -176,5 +177,12 @@ public class FolderSyncListFragment extends ListFragment
 			
 			return res;
 		}
+	}
+	
+	@Override
+	public void syncButtonPressed(FolderSync sync)
+	{
+		// TODO: Bloquear resto de syncs mientras dure el proceso
+		sync.runSynchronization();
 	}
 }

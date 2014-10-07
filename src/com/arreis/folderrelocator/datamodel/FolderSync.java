@@ -12,8 +12,9 @@ public class FolderSync implements Serializable, Cloneable
 	private String mDestinationPath;
 	private boolean mIncludeSubdirectories;
 	private boolean mMoveFiles;
+	private long mRepeatInteval;
 	
-	public FolderSync(long id, String alias, String sourcePath, String destinationPath, boolean includeSubdirectories, boolean moveFiles)
+	public FolderSync(long id, String alias, String sourcePath, String destinationPath, boolean includeSubdirectories, boolean moveFiles, long repeatInterval)
 	{
 		this.mId = id;
 		this.mAlias = alias;
@@ -21,25 +22,17 @@ public class FolderSync implements Serializable, Cloneable
 		this.mDestinationPath = destinationPath;
 		this.mIncludeSubdirectories = includeSubdirectories;
 		this.mMoveFiles = moveFiles;
+		mRepeatInteval = repeatInterval;
 	}
 	
 	public FolderSync()
 	{
-		this(-1, null, null, null, false, false);
+		this(-1, null, null, null, false, false, 0);
 	}
 	
 	public FolderSync duplicate()
 	{
-		return new FolderSync(mId, mAlias, mSourcePath, mDestinationPath, mIncludeSubdirectories, mMoveFiles);
-	}
-	
-	public void update(FolderSync otherSync)
-	{
-		this.mAlias = otherSync.getAlias();
-		this.mSourcePath = otherSync.getSourcePath();
-		this.mDestinationPath = otherSync.getDestinationPath();
-		this.mIncludeSubdirectories = otherSync.getIncludeSubdirectories();
-		this.mMoveFiles = otherSync.getMoveFiles();
+		return new FolderSync(mId, mAlias, mSourcePath, mDestinationPath, mIncludeSubdirectories, mMoveFiles, mRepeatInteval);
 	}
 	
 	public long getId()
@@ -72,6 +65,11 @@ public class FolderSync implements Serializable, Cloneable
 		return mMoveFiles;
 	}
 	
+	public long getRepeatInterval()
+	{
+		return mRepeatInteval;
+	}
+	
 	public void setAlias(String mAlias)
 	{
 		this.mAlias = mAlias;
@@ -95,5 +93,15 @@ public class FolderSync implements Serializable, Cloneable
 	public void setMoveFiles(boolean mMoveFiles)
 	{
 		this.mMoveFiles = mMoveFiles;
+	}
+	
+	public void setRepeatInterval(long repeatInterval)
+	{
+		mRepeatInteval = repeatInterval;
+	}
+	
+	public void runSynchronization()
+	{
+		
 	}
 }

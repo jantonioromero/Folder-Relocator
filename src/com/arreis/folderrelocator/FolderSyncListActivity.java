@@ -7,8 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.arreis.folderrelocator.autosync.ConfigureAutoSyncActivity;
-import com.arreis.folderrelocator.autosync.ConfigureAutoSyncFragment;
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
@@ -30,8 +28,6 @@ public class FolderSyncListActivity extends FragmentActivity implements FolderSy
 			mTwoPane = true;
 			((FolderSyncListFragment) getSupportFragmentManager().findFragmentById(R.id.foldersync_list)).setActivateOnItemClick(true);
 		}
-		
-		// TODO: If exposing deep links into your app, handle intents here.
 	}
 	
 	@Override
@@ -47,21 +43,21 @@ public class FolderSyncListActivity extends FragmentActivity implements FolderSy
 	{
 		switch (item.getItemId())
 		{
-			case R.id.menu_autosync:
-			{
-				if (mTwoPane)
-				{
-					ConfigureAutoSyncFragment fragment = new ConfigureAutoSyncFragment();
-					getSupportFragmentManager().beginTransaction().replace(R.id.foldersync_detail_container, fragment).commit();
-				}
-				else
-				{
-					Intent intent = new Intent(this, ConfigureAutoSyncActivity.class);
-					startActivity(intent);
-				}
-			}
-				break;
-			
+//			case R.id.menu_autosync:
+//			{
+//				if (mTwoPane)
+//				{
+//					ConfigureAutoSyncFragment fragment = new ConfigureAutoSyncFragment();
+//					getSupportFragmentManager().beginTransaction().replace(R.id.foldersync_detail_container, fragment).commit();
+//				}
+//				else
+//				{
+//					Intent intent = new Intent(this, ConfigureAutoSyncActivity.class);
+//					startActivity(intent);
+//				}
+//			}
+//				break;
+//			
 			case R.id.menu_newSync:
 			{
 				onItemSelected(-1);

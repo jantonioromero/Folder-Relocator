@@ -19,12 +19,13 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		public static final String COLUMN_NAME_DESTINATION_PATH = "destinationPath";
 		public static final String COLUMN_NAME_INCLUDE_SUBDIRECTORIES = "includeSubdirectories";
 		public static final String COLUMN_NAME_MOVE_FILES = "moveFiles";
+		public static final String COLUMN_NAME_REPEAT_INTERVAL = "repeatInterval";
 	}
 	
 	private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + FolderSyncEntry.TABLE_NAME + " (" + FolderSyncEntry._ID + " INTEGER PRIMARY KEY,"
 			+ FolderSyncEntry.COLUMN_NAME_ALIAS + " TEXT, " + FolderSyncEntry.COLUMN_NAME_SOURCE_PATH + " TEXT, "
 			+ FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH + " TEXT, " + FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES + " INTEGER, "
-			+ FolderSyncEntry.COLUMN_NAME_MOVE_FILES + " INTEGER" + " )";
+			+ FolderSyncEntry.COLUMN_NAME_MOVE_FILES + " INTEGER, " + FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL + " INTEGER" + ")";
 	
 	private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + FolderSyncEntry.TABLE_NAME;
 	
@@ -65,6 +66,7 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		values.put(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH, sync.getDestinationPath());
 		values.put(FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES, sync.getIncludeSubdirectories() ? 1 : 0);
 		values.put(FolderSyncEntry.COLUMN_NAME_MOVE_FILES, sync.getMoveFiles() ? 1 : 0);
+		values.put(FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL, sync.getRepeatInterval());
 		
 		long res = db.insert(FolderSyncEntry.TABLE_NAME, null, values);
 		db.close();
@@ -91,6 +93,7 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		values.put(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH, sync.getDestinationPath());
 		values.put(FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES, sync.getIncludeSubdirectories() ? 1 : 0);
 		values.put(FolderSyncEntry.COLUMN_NAME_MOVE_FILES, sync.getMoveFiles() ? 1 : 0);
+		values.put(FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL, sync.getRepeatInterval());
 		
 		long res = db.update(FolderSyncEntry.TABLE_NAME, values, "_ID = ?", new String[] { String.valueOf(sync.getId()) });
 		db.close();
@@ -120,7 +123,8 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_SOURCE_PATH)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH)),
 						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES)) == 1,
-						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_MOVE_FILES)) == 1));
+						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_MOVE_FILES)) == 1,
+						c.getLong(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL))));
 				
 				c.moveToNext();
 			}

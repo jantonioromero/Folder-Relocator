@@ -1,5 +1,6 @@
 package com.arreis.folderrelocator;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -14,6 +15,8 @@ public class FolderSyncListActivity extends FragmentActivity implements FolderSy
 {
 //	private static final int REQUEST_NEW_FOLDERSYNC = 10;
 //	private static final int REQUEST_EDIT_FOLDERSYNC = 11;
+	
+	private static final int MAX_SYNCS = 10;
 	
 	private boolean mTwoPane;
 	
@@ -60,7 +63,14 @@ public class FolderSyncListActivity extends FragmentActivity implements FolderSy
 //			
 			case R.id.menu_newSync:
 			{
-				onItemSelected(-1);
+				if (new FolderSyncDatabaseHelper(this).getFolderSyncs().size() < MAX_SYNCS)
+				{
+					onItemSelected(-1);
+				}
+				else
+				{
+					new AlertDialog.Builder(this).setMessage(String.format(getString(R.string.error_tooManySyncs), MAX_SYNCS)).setPositiveButton(android.R.string.ok, null).create().show();
+				}
 			}
 				break;
 			

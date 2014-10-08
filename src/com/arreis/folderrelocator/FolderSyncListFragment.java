@@ -3,11 +3,17 @@ package com.arreis.folderrelocator;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -15,13 +21,16 @@ import com.arreis.folderrelocator.FolderSyncCell.FolderSyncCellListener;
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
-public class FolderSyncListFragment extends ListFragment implements FolderSyncCellListener
+public class FolderSyncListFragment extends Fragment implements FolderSyncCellListener
 {
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 	private Callbacks mCallbacks = sDummyCallbacks;
 	private int mActivatedPosition = ListView.INVALID_POSITION;
-	private ArrayList<FolderSync> mFolderSyncs;
+	
+	private ListView mListView;
+	
 	private SyncListAdapter mAdapter;
+	private ArrayList<FolderSync> mFolderSyncs;
 	
 	public interface Callbacks
 	{
@@ -51,9 +60,45 @@ public class FolderSyncListFragment extends ListFragment implements FolderSyncCe
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	{
+		View rootView = inflater.inflate(R.layout.fragment_foldersync_list, container, false);
 		
 		mAdapter = new SyncListAdapter();
-		setListAdapter(mAdapter);
+		mListView = (ListView) rootView.findViewById(R.id.listView);
+		mListView.setAdapter(mAdapter);
+		mListView.setOnItemClickListener(new OnItemClickListener()
+		{
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				mCallbacks.onItemSelected(position);
+			}
+		});
+		mListView.setOnItemLongClickListener(new OnItemLongClickListener()
+		{
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
+			{
+				final FolderSync selectedSync = mFolderSyncs.get(position);
+				new AlertDialog.Builder(getActivity()).setMessage(String.format(getString(R.string.message_deleteFolderSync), selectedSync.getAlias())).setPositiveButton(android.R.string.yes, new OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						new FolderSyncDatabaseHelper(getActivity()).delete(selectedSync);
+						updateDBDataAndRefresh();
+					}
+				}).setNegativeButton(android.R.string.no, null).create().show();
+				
+				return false;
+			}
+		});
+		
+		return rootView;
 	}
 	
 	@Override
@@ -96,14 +141,6 @@ public class FolderSyncListFragment extends ListFragment implements FolderSyncCe
 	}
 	
 	@Override
-	public void onListItemClick(ListView listView, View view, int position, long id)
-	{
-		super.onListItemClick(listView, view, position, id);
-		
-		mCallbacks.onItemSelected(position);
-	}
-	
-	@Override
 	public void onSaveInstanceState(Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
@@ -115,18 +152,18 @@ public class FolderSyncListFragment extends ListFragment implements FolderSyncCe
 	
 	public void setActivateOnItemClick(boolean activateOnItemClick)
 	{
-		getListView().setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
+		mListView.setChoiceMode(activateOnItemClick ? ListView.CHOICE_MODE_SINGLE : ListView.CHOICE_MODE_NONE);
 	}
 	
 	private void setActivatedPosition(int position)
 	{
 		if (position == ListView.INVALID_POSITION)
 		{
-			getListView().setItemChecked(mActivatedPosition, false);
+			mListView.setItemChecked(mActivatedPosition, false);
 		}
 		else
 		{
-			getListView().setItemChecked(position, true);
+			mListView.setItemChecked(position, true);
 		}
 		
 		mActivatedPosition = position;

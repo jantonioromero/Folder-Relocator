@@ -16,5 +16,7 @@
 	<string name="syncMoveFiles">Move contents (will be removed from source)</string>
 	<string name="error_noAlias">You must provide an alias for the sync.</string>
 	<string name="error_noSourceOrDest">You must provide a source and a destination folder for the sync.</string>
+	<string name="error_tooManySyncs" formatted="false">You can\'t have more than %d syncs active at a time.</string>
+	<string name="message_deleteFolderSync" formatted="false">Do you really want to delete sync %s?</string>
 
 </resources>

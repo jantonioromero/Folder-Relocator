@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
+import com.arreis.folderrelocator.datamodel.alarm.SyncAlarmManager;
 import com.arreis.folderrelocator.explorer.FolderListActivity;
 
 public class FolderSyncDetailFragment extends Fragment
@@ -209,6 +210,8 @@ public class FolderSyncDetailFragment extends Fragment
 					
 					if (getActivity() instanceof FolderSyncDetailActivity)
 						getActivity().finish();
+					
+					SyncAlarmManager.setAlarm(getActivity(), mTempFolderSync);
 				}
 			}
 		});

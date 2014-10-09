@@ -134,4 +134,42 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		
 		return sFolderSyncs;
 	}
+	
+	public FolderSync getFolderSync(long syncId)
+	{
+		FolderSync res = null;
+		
+		if (sFolderSyncs != null)
+		{
+			for (FolderSync sync : sFolderSyncs)
+			{
+				if (syncId == sync.getId())
+				{
+					res = sync;
+					break;
+				}
+			}
+		}
+		
+		if (res == null)
+		{
+			SQLiteDatabase db = getReadableDatabase();
+			Cursor c = db.query(FolderSyncEntry.TABLE_NAME, new String[] { "*" }, FolderSyncEntry._ID + "=?", new String[] { String.valueOf(syncId) }, null, null, null);
+			c.moveToFirst();
+			
+			if (c.isAfterLast() == false)
+			{
+				res = new FolderSync(c.getLong(c.getColumnIndex(FolderSyncEntry._ID)), c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ALIAS)),
+						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_SOURCE_PATH)),
+						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH)),
+						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES)) == 1,
+						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_MOVE_FILES)) == 1,
+						c.getLong(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL)));
+			}
+			
+			db.close();
+		}
+		
+		return res;
+	}
 }

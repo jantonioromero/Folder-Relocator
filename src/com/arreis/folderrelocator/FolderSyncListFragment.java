@@ -20,6 +20,7 @@ import android.widget.ListView;
 import com.arreis.folderrelocator.FolderSyncCell.FolderSyncCellListener;
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
+import com.arreis.folderrelocator.datamodel.alarm.SyncAlarmManager;
 
 public class FolderSyncListFragment extends Fragment implements FolderSyncCellListener
 {
@@ -90,6 +91,7 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 					public void onClick(DialogInterface dialog, int which)
 					{
 						new FolderSyncDatabaseHelper(getActivity()).delete(selectedSync);
+						SyncAlarmManager.cancelAlarm(getActivity(), selectedSync);
 						updateDBDataAndRefresh();
 					}
 				}).setNegativeButton(android.R.string.no, null).create().show();
@@ -174,6 +176,7 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 		mFolderSyncs = new FolderSyncDatabaseHelper(getActivity()).getFolderSyncs(true);
 		mAdapter.notifyDataSetChanged();
 		
+		SyncAlarmManager.setBootReceiverEnabled(getActivity(), mFolderSyncs.size() > 0);
 	}
 	
 	private class SyncListAdapter extends BaseAdapter
@@ -220,6 +223,7 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 	public void syncButtonPressed(FolderSync sync)
 	{
 		// TODO: Bloquear resto de syncs mientras dure el proceso
+		SyncAlarmManager.setAlarm(getActivity(), sync);
 		sync.runSynchronization();
 	}
 }

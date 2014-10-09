@@ -18,5 +18,7 @@
 	<string name="error_noSourceOrDest">You must provide a source and a destination folder for the sync.</string>
 	<string name="error_tooManySyncs" formatted="false">You can\'t have more than %d syncs active at a time.</string>
 	<string name="message_deleteFolderSync" formatted="false">Do you really want to delete sync %s?</string>
+	<string name="message_syncInProgress_title">Sync in progress</string>
+	<string name="message_syncInProgress_description" formatted="false">Copying contents of %s1 to %s2</string>
 
 </resources>

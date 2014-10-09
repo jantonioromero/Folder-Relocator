@@ -102,6 +102,14 @@ public class FolderSync implements Serializable, Cloneable
 	
 	public void runSynchronization()
 	{
-		
+		// TODO: Realizar copia real
+		try
+		{
+			Thread.sleep(5000);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

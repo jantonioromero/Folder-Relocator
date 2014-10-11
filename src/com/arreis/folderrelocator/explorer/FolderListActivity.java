@@ -15,16 +15,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.arreis.folderrelocator.R;
-import com.arreis.util.AFileListManager;
-import com.arreis.util.AFileListManager.AFileListMode;
+import com.arreis.util.AFileListManager.AFileListShowFilesMode;
+import com.arreis.util.APublicFileListManager;
 
 public class FolderListActivity extends ActionBarActivity
 {
 	public static final String ARG_SELECTEDPATH = "ARG_SELECTEDPATH";
 	
 	private TextView mCurrentDirTextView;
+	private Button mSelectButton;
 	
-	private AFileListManager mFileListManager;
+	private APublicFileListManager mFileListManager;
 	private FolderListAdapter mAdapter;
 	
 	@Override
@@ -40,13 +41,14 @@ public class FolderListActivity extends ActionBarActivity
 		else
 			initialPath = getIntent().getStringExtra(ARG_SELECTEDPATH);
 		
-		mFileListManager = new AFileListManager(initialPath, AFileListMode.DIRECTORIES_ONLY);
+		mFileListManager = new APublicFileListManager(AFileListShowFilesMode.DIRECTORIES_ONLY);
 		
 		setContentView(R.layout.activity_folderlist);
 		
 		mCurrentDirTextView = (TextView) findViewById(R.id.textView);
 		
-		((Button) findViewById(R.id.select_button)).setOnClickListener(new OnClickListener()
+		mSelectButton = (Button) findViewById(R.id.select_button);
+		mSelectButton.setOnClickListener(new OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
@@ -66,13 +68,13 @@ public class FolderListActivity extends ActionBarActivity
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
-				mFileListManager.traverseToDirectory(mFileListManager.getFileList().get(position));
+				mFileListManager.goIntoItem(position);
 				mAdapter.notifyDataSetChanged();
-				updateCurrentDirPath();
+				updateUI();
 			}
 		});
 		
-		updateCurrentDirPath();
+		updateUI();
 	}
 	
 	@Override
@@ -83,9 +85,25 @@ public class FolderListActivity extends ActionBarActivity
 		outState.putString(ARG_SELECTEDPATH, mFileListManager.getCurrentDirectory().getAbsolutePath());
 	}
 	
-	private void updateCurrentDirPath()
+	@Override
+	public void onBackPressed()
 	{
-		mCurrentDirTextView.setText(mFileListManager.getCurrentDirectory().getAbsolutePath());
+		if (mFileListManager.canGoBack())
+		{
+			mFileListManager.goBack();
+			mAdapter.notifyDataSetChanged();
+			updateUI();
+		}
+		else
+		{
+			super.onBackPressed();
+		}
+	}
+	
+	private void updateUI()
+	{
+		mCurrentDirTextView.setText((mFileListManager.getDepthLevel() == 0) ? "" : mFileListManager.getCurrentDirectory().getAbsolutePath());
+		mSelectButton.setEnabled(mFileListManager.getDepthLevel() >= 2); // Prevent user from selecting a base public directory
 	}
 	
 	private class FolderListAdapter extends BaseAdapter
@@ -100,7 +118,13 @@ public class FolderListActivity extends ActionBarActivity
 		@Override
 		public String getItem(int position)
 		{
-			String res = mFileListManager.getFileList().get(position).getName();
+			String res = null;
+			
+			if (mFileListManager.getDepthLevel() == 0)
+				res = mFileListManager.getFileList().get(position).getAbsolutePath();
+			else
+				res = mFileListManager.getFileList().get(position).getName();
+			
 			return res;
 		}
 		

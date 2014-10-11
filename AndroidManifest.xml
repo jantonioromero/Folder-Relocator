@@ -8,8 +8,9 @@
 		android:minSdkVersion="8"
 		android:targetSdkVersion="19" />
 
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 	<application
 		android:allowBackup="true"
@@ -37,7 +38,7 @@
 		</activity>
 
 		<receiver
-			android:name=".BootReceiver"
+			android:name=".datamodel.alarm.BootReceiver"
 			android:enabled="false" >
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" >
@@ -45,7 +46,7 @@
 			</intent-filter>
 		</receiver>
 
-		<service android:name=".SyncAlarmService" >
+		<service android:name=".datamodel.alarm.SyncAlarmService" >
 		</service>
 	</application>
 

@@ -17,6 +17,7 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		public static final String COLUMN_NAME_ALIAS = "alias";
 		public static final String COLUMN_NAME_SOURCE_PATH = "sourcePath";
 		public static final String COLUMN_NAME_DESTINATION_PATH = "destinationPath";
+		public static final String COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR = "onFileExistsBehavior";
 		public static final String COLUMN_NAME_INCLUDE_SUBDIRECTORIES = "includeSubdirectories";
 		public static final String COLUMN_NAME_MOVE_FILES = "moveFiles";
 		public static final String COLUMN_NAME_REPEAT_INTERVAL = "repeatInterval";
@@ -24,8 +25,9 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 	
 	private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + FolderSyncEntry.TABLE_NAME + " (" + FolderSyncEntry._ID + " INTEGER PRIMARY KEY,"
 			+ FolderSyncEntry.COLUMN_NAME_ALIAS + " TEXT, " + FolderSyncEntry.COLUMN_NAME_SOURCE_PATH + " TEXT, "
-			+ FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH + " TEXT, " + FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES + " INTEGER, "
-			+ FolderSyncEntry.COLUMN_NAME_MOVE_FILES + " INTEGER, " + FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL + " INTEGER" + ")";
+			+ FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH + " TEXT, " + FolderSyncEntry.COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR + " INTEGER, "
+			+ FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES + " INTEGER, " + FolderSyncEntry.COLUMN_NAME_MOVE_FILES + " INTEGER, "
+			+ FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL + " INTEGER" + ")";
 	
 	private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + FolderSyncEntry.TABLE_NAME;
 	
@@ -64,6 +66,7 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		values.put(FolderSyncEntry.COLUMN_NAME_ALIAS, sync.getAlias());
 		values.put(FolderSyncEntry.COLUMN_NAME_SOURCE_PATH, sync.getSourcePath());
 		values.put(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH, sync.getDestinationPath());
+		values.put(FolderSyncEntry.COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR, FolderSync.getIdentifierFromBehavior(sync.getOnFileExistsBehavior()));
 		values.put(FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES, sync.getIncludeSubdirectories() ? 1 : 0);
 		values.put(FolderSyncEntry.COLUMN_NAME_MOVE_FILES, sync.getMoveFiles() ? 1 : 0);
 		values.put(FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL, sync.getRepeatInterval());
@@ -91,6 +94,7 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		values.put(FolderSyncEntry.COLUMN_NAME_ALIAS, sync.getAlias());
 		values.put(FolderSyncEntry.COLUMN_NAME_SOURCE_PATH, sync.getSourcePath());
 		values.put(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH, sync.getDestinationPath());
+		values.put(FolderSyncEntry.COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR, FolderSync.getIdentifierFromBehavior(sync.getOnFileExistsBehavior()));
 		values.put(FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES, sync.getIncludeSubdirectories() ? 1 : 0);
 		values.put(FolderSyncEntry.COLUMN_NAME_MOVE_FILES, sync.getMoveFiles() ? 1 : 0);
 		values.put(FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL, sync.getRepeatInterval());
@@ -122,6 +126,7 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ALIAS)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_SOURCE_PATH)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH)),
+						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR)),
 						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES)) == 1,
 						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_MOVE_FILES)) == 1,
 						c.getLong(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL))));
@@ -162,6 +167,7 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 				res = new FolderSync(c.getLong(c.getColumnIndex(FolderSyncEntry._ID)), c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ALIAS)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_SOURCE_PATH)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH)),
+						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR)),
 						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES)) == 1,
 						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_MOVE_FILES)) == 1,
 						c.getLong(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL)));

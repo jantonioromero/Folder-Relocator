@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.arreis.folderrelocator.FolderSyncCell.FolderSyncCellListener;
 import com.arreis.folderrelocator.datamodel.FolderSync;
@@ -28,6 +29,7 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 	private Callbacks mCallbacks = sDummyCallbacks;
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 	
+	private TextView mNoSyncsText;
 	private ListView mListView;
 	
 	private SyncListAdapter mAdapter;
@@ -67,6 +69,8 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View rootView = inflater.inflate(R.layout.fragment_foldersync_list, container, false);
+		
+		mNoSyncsText = (TextView) rootView.findViewById(R.id.text_noSyncs);
 		
 		mAdapter = new SyncListAdapter();
 		mListView = (ListView) rootView.findViewById(R.id.listView);
@@ -188,6 +192,8 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 			
 			if (mFolderSyncs != null)
 				res = mFolderSyncs.size();
+			
+			mNoSyncsText.setVisibility(res == 0 ? View.VISIBLE : View.GONE);
 			
 			return res;
 		}

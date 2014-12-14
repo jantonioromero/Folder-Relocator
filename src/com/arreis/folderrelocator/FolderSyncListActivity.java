@@ -2,8 +2,10 @@ package com.arreis.folderrelocator;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,10 +13,12 @@ import android.view.MenuItem;
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
-public class FolderSyncListActivity extends FragmentActivity implements FolderSyncListFragment.Callbacks
+public class FolderSyncListActivity extends ActionBarActivity implements FolderSyncListFragment.Callbacks
 {
 //	private static final int REQUEST_NEW_FOLDERSYNC = 10;
 //	private static final int REQUEST_EDIT_FOLDERSYNC = 11;
+	
+	private static final String PREFS_FIRST_RUN = "com.arreis.FolderRelocator.PREFS_FIRST_RUN";
 	
 	private static final int MAX_SYNCS = 10;
 	
@@ -30,6 +34,13 @@ public class FolderSyncListActivity extends FragmentActivity implements FolderSy
 		{
 			mTwoPane = true;
 			((FolderSyncListFragment) getSupportFragmentManager().findFragmentById(R.id.foldersync_list)).setActivateOnItemClick(true);
+		}
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		if (prefs.getBoolean(PREFS_FIRST_RUN, true))
+		{
+			prefs.edit().putBoolean(PREFS_FIRST_RUN, false).commit();
+			showTutorial();
 		}
 	}
 	
@@ -115,5 +126,10 @@ public class FolderSyncListActivity extends FragmentActivity implements FolderSy
 	public void onItemUpdated(int position)
 	{
 		((FolderSyncListFragment) getSupportFragmentManager().findFragmentById(R.id.foldersync_list)).updateDBDataAndRefresh();
+	}
+	
+	private void showTutorial()
+	{
+		
 	}
 }

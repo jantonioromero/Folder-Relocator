@@ -12,6 +12,8 @@ import com.arreis.folderrelocator.datamodel.FolderSync;
 
 public class SyncAlarmManager
 {
+	private static final String ALARM_INTENT_ACTION = "com.arreis.folderrelocator.datamodel.alarm.ACTION";
+	
 	public static void setBootReceiverEnabled(Context context, boolean enabled)
 	{
 		ComponentName receiver = new ComponentName(context, BootReceiver.class);
@@ -22,16 +24,20 @@ public class SyncAlarmManager
 	
 	public static void setAlarm(Context context, FolderSync sync)
 	{
-		// Cancel previous alarm with the same id
-		cancelAlarm(context, sync);
-		
-		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		
-		Intent intent = new Intent(context, SyncAlarmService.class);
-		intent.putExtra(SyncAlarmService.EXTRA_LONG_ALARMID, sync.getId());
-		PendingIntent pi = PendingIntent.getService(context, (int) sync.getId(), intent, 0);
-		
-		am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + sync.getRepeatInterval(), sync.getRepeatInterval(), pi);
+		if (sync.getId() != -1)
+		{
+			// Cancel previous alarm with the same id
+			cancelAlarm(context, sync);
+			
+			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+			
+			Intent intent = new Intent(context, SyncAlarmService.class);
+			intent.setAction(ALARM_INTENT_ACTION);
+			intent.putExtra(SyncAlarmService.EXTRA_LONG_ALARMID, sync.getId());
+			PendingIntent pi = PendingIntent.getService(context, (int) sync.getId(), intent, 0);
+			
+			am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1000 * sync.getRepeatInterval(), 1000 * sync.getRepeatInterval(), pi);
+		}
 	}
 	
 	public static void cancelAlarm(Context context, FolderSync sync)

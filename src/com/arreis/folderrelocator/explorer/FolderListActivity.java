@@ -2,8 +2,10 @@ package com.arreis.folderrelocator.explorer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.arreis.folderrelocator.R;
+import com.arreis.util.AFileListManager.AFileListShowBackMode;
 import com.arreis.util.AFileListManager.AFileListShowFilesMode;
 import com.arreis.util.APublicFileListManager;
 
@@ -35,6 +38,9 @@ public class FolderListActivity extends ActionBarActivity
 		
 		setResult(RESULT_CANCELED);
 		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		
 		String initialPath = null;
 		if (savedInstanceState != null)
 			initialPath = savedInstanceState.getString(ARG_SELECTEDPATH);
@@ -42,6 +48,7 @@ public class FolderListActivity extends ActionBarActivity
 			initialPath = getIntent().getStringExtra(ARG_SELECTEDPATH);
 		
 		mFileListManager = new APublicFileListManager(AFileListShowFilesMode.DIRECTORIES_ONLY);
+		mFileListManager.setShowBackMode(AFileListShowBackMode.NEVER);
 		
 		setContentView(R.layout.activity_folderlist);
 		
@@ -98,6 +105,19 @@ public class FolderListActivity extends ActionBarActivity
 		{
 			super.onBackPressed();
 		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+			case android.R.id.home:
+				finish();
+//				overridePendingTransition(android.R.animator.fade_in, android.R.animator.fade_out);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	private void updateUI()

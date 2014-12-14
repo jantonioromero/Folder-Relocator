@@ -2,7 +2,7 @@
 <resources>
 
 	<string-array name="autosync_intervals">
-		<item>1 minute</item>
+		<item>30 seconds</item>
 		<item>1 hour</item>
 		<item>6 hours</item>
 		<item>12 hours</item>
@@ -12,7 +12,7 @@
 		<item>30 days</item>
 	</string-array>
 	<string-array name="autosync_interval_values">
-		<item>60</item>
+		<item>30</item>
 		<item>3600</item>
 		<item>21600</item>
 		<item>43200</item>

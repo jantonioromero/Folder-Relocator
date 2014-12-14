@@ -34,41 +34,100 @@
 				android:layout_height="wrap_content"
 				android:text="@string/syncDestination" />
 
-			<CheckBox
-				android:id="@+id/check_includeSubDirs"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/syncIncludeSubDirs" />
-
-			<CheckBox
-				android:id="@+id/check_moveFiles"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/syncMoveFiles" />
-
-			<RadioGroup
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:checkedButton="@+id/noAutoSync_radio"
-				android:orientation="vertical" >
+				android:orientation="vertical"
+				android:paddingBottom="8dp"
+				android:paddingTop="8dp" >
 
-				<RadioButton
-					android:id="@+id/noAutoSync_radio"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/dontAutosync" />
-
-				<RadioButton
-					android:id="@+id/autoSyncEvery_radio"
+				<CheckBox
+					android:id="@+id/check_includeSubDirs"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:text="@string/autosyncEvery" />
-			</RadioGroup>
+					android:text="@string/syncIncludeSubDirs" />
 
-			<Spinner
-				android:id="@+id/autosync_spinner"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" />
+				<CheckBox
+					android:id="@+id/check_moveFiles"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/syncMoveFiles" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:paddingBottom="8dp"
+				android:paddingTop="8dp" >
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/onOverwriteFile" />
+
+				<RadioGroup
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:checkedButton="@+id/rename_radio"
+					android:orientation="vertical" >
+
+					<RadioButton
+						android:id="@+id/rename_radio"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/rename" />
+
+					<RadioButton
+						android:id="@+id/overwrite_radio"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/overwrite" />
+
+					<RadioButton
+						android:id="@+id/doNothing_radio"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/doNotSyncThisFile" />
+				</RadioGroup>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:paddingBottom="8dp"
+				android:paddingTop="8dp" >
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/autosync" />
+
+				<RadioGroup
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:checkedButton="@+id/noAutoSync_radio"
+					android:orientation="vertical" >
+
+					<RadioButton
+						android:id="@+id/noAutoSync_radio"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/dontAutosync" />
+
+					<RadioButton
+						android:id="@+id/autoSyncEvery_radio"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/autosyncEvery" />
+				</RadioGroup>
+
+				<Spinner
+					android:id="@+id/autosync_spinner"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content" />
+			</LinearLayout>
 		</LinearLayout>
 	</ScrollView>
 

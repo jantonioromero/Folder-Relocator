@@ -26,6 +26,7 @@ import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 import com.arreis.folderrelocator.datamodel.alarm.SyncAlarmManager;
 import com.arreis.folderrelocator.explorer.FolderListActivity;
+import com.arreis.util.AFileListManager.AFileCopyDestinationFileExistsBehavior;
 
 public class FolderSyncDetailFragment extends Fragment
 {
@@ -151,6 +152,42 @@ public class FolderSyncDetailFragment extends Fragment
 			}
 		});
 		
+		((RadioButton) rootView.findViewById(R.id.rename_radio)).setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				if (isChecked)
+				{
+					mTempFolderSync.setOnFileExistsBehavior(AFileCopyDestinationFileExistsBehavior.RENAME);
+				}
+			}
+		});
+		
+		((RadioButton) rootView.findViewById(R.id.overwrite_radio)).setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				if (isChecked)
+				{
+					mTempFolderSync.setOnFileExistsBehavior(AFileCopyDestinationFileExistsBehavior.OVERWRITE);
+				}
+			}
+		});
+		
+		((RadioButton) rootView.findViewById(R.id.doNothing_radio)).setOnCheckedChangeListener(new OnCheckedChangeListener()
+		{
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				if (isChecked)
+				{
+					mTempFolderSync.setOnFileExistsBehavior(AFileCopyDestinationFileExistsBehavior.DO_NOT_COPY);
+				}
+			}
+		});
+		
 		mNoAutoSyncRadio = (RadioButton) rootView.findViewById(R.id.noAutoSync_radio);
 		mNoAutoSyncRadio.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{
@@ -206,7 +243,10 @@ public class FolderSyncDetailFragment extends Fragment
 					FolderSyncDatabaseHelper helper = new FolderSyncDatabaseHelper(getActivity());
 					long rows = helper.update(mTempFolderSync);
 					if (rows == 0)
-						helper.insert(mTempFolderSync);
+					{
+						long id = helper.insert(mTempFolderSync);
+						mTempFolderSync.setId(id);
+					}
 					
 					if (getActivity() instanceof FolderSyncDetailActivity)
 						getActivity().finish();
@@ -286,7 +326,10 @@ public class FolderSyncDetailFragment extends Fragment
 		{
 			errorMessageResId = R.string.error_noSourceOrDest;
 		}
-		// TODO: Poner más mensajes de error cuando se usen paths incorrectos
+		else if (mTempFolderSync.getSourcePath().equals(mTempFolderSync.getDestinationPath()))
+		{
+			errorMessageResId = R.string.error_sourceAndDestAreSame;
+		}
 		
 		if (errorMessageResId != 0)
 			Toast.makeText(getActivity(), errorMessageResId, Toast.LENGTH_SHORT).show();

@@ -18,6 +18,6 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="center_vertical"
 		android:contentDescription="@string/synchronize"
-		android:src="@drawable/ic_launcher" />
+		android:src="@drawable/ic_menu_refresh" />
 
 </com.arreis.folderrelocator.FolderSyncCell>

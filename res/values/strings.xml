@@ -9,6 +9,7 @@
 	<string name="onOverwriteFile">If a file with the same name already exists at destination…</string>
 	<string name="menu_autosync">Auto Sync</string>
 	<string name="menu_newSync">Add…</string>
+	<string name="menu_newFolder">New folder…</string>
 	<string name="noSyncs">You don\'t have any syncs yet.\nPress the \"Add…\" button to create one.</string>
 	<string name="overwrite">Overwrite</string>
 	<string name="rename">Rename</string>
@@ -20,6 +21,7 @@
 	<string name="syncDestination">Destination</string>
 	<string name="syncIncludeSubDirs">Include subfolders</string>
 	<string name="syncMoveFiles">Move contents (will be removed from source)</string>
+	<string name="error_newFolderError">Couldn\'t create new folder</string>
 	<string name="error_noAlias">You must provide an alias for the sync.</string>
 	<string name="error_noSourceOrDest">You must provide a source and a destination folder for the sync.</string>
 	<string name="error_sourceAndDestAreSame">The source folder and the destination folder are the same.</string>
@@ -27,5 +29,10 @@
 	<string name="message_deleteFolderSync" formatted="false">Do you really want to delete sync %s?</string>
 	<string name="message_syncInProgress_title">Sync in progress</string>
 	<string name="message_syncInProgress_description" formatted="false">Copying contents of %s1 to %s2</string>
+	<string name="dialog_overwrite_title">Warning!</string>
+	<string name="dialog_overwrite_message">This configuration will overwrite files in the destination folder. If a file with the same name is copied, the old one will be lost! Is this what you want?</string>
+	<string name="dialog_overwrite_changeToRename">Change to \"Rename\"</string>
+	<string name="dialog_newDirectory_title">New directory</string>
+	<string name="dialog_newDirectory_message">New folder name</string>
 
 </resources>

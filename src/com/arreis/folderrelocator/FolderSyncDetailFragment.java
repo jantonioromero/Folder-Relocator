@@ -1,6 +1,8 @@
 package com.arreis.folderrelocator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,6 +42,9 @@ public class FolderSyncDetailFragment extends Fragment
 	private Button mDestinationButton;
 	private CheckBox mIncludeSubDirsCheck;
 	private CheckBox mMoveFilesCheck;
+	private RadioButton mRenameRadioButton;
+	private RadioButton mOverwriteRadioButton;
+	private RadioButton mDoNotCopyRadioButton;
 	private RadioButton mNoAutoSyncRadio;
 	private RadioButton mAutoSyncRadio;
 	private Spinner mAutoSyncSpinner;
@@ -152,7 +157,8 @@ public class FolderSyncDetailFragment extends Fragment
 			}
 		});
 		
-		((RadioButton) rootView.findViewById(R.id.rename_radio)).setOnCheckedChangeListener(new OnCheckedChangeListener()
+		mRenameRadioButton = (RadioButton) rootView.findViewById(R.id.rename_radio);
+		mRenameRadioButton.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -164,7 +170,8 @@ public class FolderSyncDetailFragment extends Fragment
 			}
 		});
 		
-		((RadioButton) rootView.findViewById(R.id.overwrite_radio)).setOnCheckedChangeListener(new OnCheckedChangeListener()
+		mOverwriteRadioButton = (RadioButton) rootView.findViewById(R.id.overwrite_radio);
+		mOverwriteRadioButton.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -176,7 +183,8 @@ public class FolderSyncDetailFragment extends Fragment
 			}
 		});
 		
-		((RadioButton) rootView.findViewById(R.id.doNothing_radio)).setOnCheckedChangeListener(new OnCheckedChangeListener()
+		mDoNotCopyRadioButton = (RadioButton) rootView.findViewById(R.id.doNothing_radio);
+		mDoNotCopyRadioButton.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
@@ -240,18 +248,29 @@ public class FolderSyncDetailFragment extends Fragment
 			{
 				if (checkFields())
 				{
-					FolderSyncDatabaseHelper helper = new FolderSyncDatabaseHelper(getActivity());
-					long rows = helper.update(mTempFolderSync);
-					if (rows == 0)
+					if (mOverwriteRadioButton.isChecked())
 					{
-						long id = helper.insert(mTempFolderSync);
-						mTempFolderSync.setId(id);
+						new AlertDialog.Builder(getActivity()).setTitle(R.string.dialog_overwrite_title).setMessage(R.string.dialog_overwrite_message).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog, int which)
+							{
+								saveSync();
+							}
+						}).setNeutralButton(R.string.dialog_overwrite_changeToRename, new DialogInterface.OnClickListener()
+						{
+							@Override
+							public void onClick(DialogInterface dialog, int which)
+							{
+								mRenameRadioButton.setChecked(true);
+								saveSync();
+							}
+						}).setNegativeButton(android.R.string.no, null).create().show();
 					}
-					
-					if (getActivity() instanceof FolderSyncDetailActivity)
-						getActivity().finish();
-					
-					SyncAlarmManager.setAlarm(getActivity(), mTempFolderSync);
+					else
+					{
+						saveSync();
+					}
 				}
 			}
 		});
@@ -335,5 +354,21 @@ public class FolderSyncDetailFragment extends Fragment
 			Toast.makeText(getActivity(), errorMessageResId, Toast.LENGTH_SHORT).show();
 		
 		return (errorMessageResId == 0);
+	}
+	
+	private void saveSync()
+	{
+		FolderSyncDatabaseHelper helper = new FolderSyncDatabaseHelper(getActivity());
+		long rows = helper.update(mTempFolderSync);
+		if (rows == 0)
+		{
+			long id = helper.insert(mTempFolderSync);
+			mTempFolderSync.setId(id);
+		}
+		
+		if (getActivity() instanceof FolderSyncDetailActivity)
+			getActivity().finish();
+		
+		SyncAlarmManager.setAlarm(getActivity(), mTempFolderSync);
 	}
 }

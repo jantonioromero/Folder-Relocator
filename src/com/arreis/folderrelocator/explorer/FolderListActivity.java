@@ -1,10 +1,16 @@
 package com.arreis.folderrelocator.explorer;
 
+import java.io.File;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,8 +19,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arreis.folderrelocator.R;
 import com.arreis.util.AFileListManager.AFileListShowBackMode;
@@ -49,6 +57,11 @@ public class FolderListActivity extends ActionBarActivity
 		
 		mFileListManager = new APublicFileListManager(AFileListShowFilesMode.DIRECTORIES_ONLY);
 		mFileListManager.setShowBackMode(AFileListShowBackMode.NEVER);
+		
+		if (initialPath != null)
+		{
+			mFileListManager.traverseToDirectory(new File(initialPath));
+		}
 		
 		setContentView(R.layout.activity_folderlist);
 		
@@ -108,15 +121,63 @@ public class FolderListActivity extends ActionBarActivity
 	}
 	
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_folderlist, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu)
+	{
+		int depth = mFileListManager.getDepthLevel();
+		menu.findItem(R.id.menu_newDirectory).setVisible(mFileListManager.getDepthLevel() > 0);
+		
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
 		{
 			case android.R.id.home:
+			{
 				finish();
 //				overridePendingTransition(android.R.animator.fade_in, android.R.animator.fade_out);
 				return true;
+			}
+			
+			case R.id.menu_newDirectory:
+			{
+				View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_newdirectory, null);
+				final EditText newFolderEdit = (EditText) dialogView.findViewById(R.id.edit_newFolder);
+				new AlertDialog.Builder(FolderListActivity.this).setTitle(R.string.dialog_newDirectory_title).setView(dialogView).setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						boolean mkdirOk = false;
+						String dirName = newFolderEdit.getText().toString();
+						if (dirName.matches("^[a-zA-Z0-9-_.]*$"))
+						{
+							mkdirOk = mFileListManager.mkdir(dirName);
+							mFileListManager.getFileList(true);
+							mAdapter.notifyDataSetChanged();
+						}
+						
+						if (mkdirOk == false)
+						{
+							Toast.makeText(FolderListActivity.this, R.string.error_newFolderError, Toast.LENGTH_SHORT).show();
+						}
+					}
+				}).setNegativeButton(android.R.string.cancel, null).create().show();
+				
+				return true;
+			}
 		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -124,6 +185,7 @@ public class FolderListActivity extends ActionBarActivity
 	{
 		mCurrentDirTextView.setText((mFileListManager.getDepthLevel() == 0) ? "" : mFileListManager.getCurrentDirectory().getAbsolutePath());
 		mSelectButton.setEnabled(mFileListManager.getDepthLevel() >= 2); // Prevent user from selecting a base public directory
+		supportInvalidateOptionsMenu();
 	}
 	
 	private class FolderListAdapter extends BaseAdapter

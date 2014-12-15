@@ -1,6 +1,4 @@
-- Add alert on creating Sync with "overwrite" option (originals will be deleted...)
 - Add tutorial
-- Add support to create a new directory in the selector
 - Color UI
 - Test in tablet and make adjustments
 - Add icons

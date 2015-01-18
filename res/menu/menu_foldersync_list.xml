@@ -3,11 +3,16 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto" >
 
 	<item
+		android:id="@+id/menu_tutorial"
+		android:icon="@drawable/ic_menu_help"
+		android:title="@string/menu_help"
+		app:showAsAction="ifRoom">
+	</item>
+	<item
 		android:id="@+id/menu_newSync"
 		android:icon="@drawable/ic_menu_add"
 		android:title="@string/menu_newSync"
 		app:showAsAction="ifRoom">
 	</item>
-	<!-- <item android:id="@+id/menu_autosync" android:title="@string/menu_autosync"></item> -->
 
 </menu>

@@ -37,6 +37,8 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 	
 	public interface Callbacks
 	{
+		public void deselectAllItems();
+		
 		public void onItemSelected(int position);
 		
 		public void onItemUpdated(int position);
@@ -51,6 +53,11 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 		
 		@Override
 		public void onItemUpdated(int position)
+		{
+		}
+		
+		@Override
+		public void deselectAllItems()
 		{
 		}
 	};
@@ -97,6 +104,8 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 						new FolderSyncDatabaseHelper(getActivity()).delete(selectedSync);
 						SyncAlarmManager.cancelAlarm(getActivity(), selectedSync);
 						updateDBDataAndRefresh();
+						
+						((FolderSyncListFragment.Callbacks) getActivity()).deselectAllItems();
 					}
 				}).setNegativeButton(android.R.string.no, null).create().show();
 				
@@ -217,6 +226,7 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 			if (res == null)
 			{
 				res = (FolderSyncCell) LayoutInflater.from(getActivity()).inflate(R.layout.cell_foldersync, null);
+				res.setListener(FolderSyncListFragment.this);
 			}
 			
 			res.setFolderSync(getItem(position));

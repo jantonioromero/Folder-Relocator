@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import com.arreis.folderrelocator.R;
 import com.arreis.folderrelocator.datamodel.FolderSync;
@@ -28,9 +29,17 @@ public class SyncAlarmService extends IntentService
 			FolderSync folderSync = new FolderSyncDatabaseHelper(getApplicationContext()).getFolderSync(syncId);
 			if (folderSync != null)
 			{
-				showSyncNotification(folderSync);
-				folderSync.runSynchronization();
-				hideNotification(folderSync);
+				if (folderSync.getRepeatInterval() == 0)
+				{
+					SyncAlarmManager.cancelAlarm(getApplicationContext(), folderSync);
+				}
+				else
+				{
+					showSyncNotification(folderSync);
+					Toast.makeText(getApplicationContext(), "Scheduled sync", Toast.LENGTH_SHORT).show();
+					folderSync.runSynchronization();
+					hideNotification(folderSync);
+				}
 			}
 		}
 	}

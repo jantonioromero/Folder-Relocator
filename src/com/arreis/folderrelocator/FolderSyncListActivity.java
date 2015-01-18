@@ -5,10 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
@@ -85,11 +90,25 @@ public class FolderSyncListActivity extends ActionBarActivity implements FolderS
 			}
 				break;
 			
+			case R.id.menu_tutorial:
+			{
+				showTutorial();
+			}
+				break;
+			
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public void deselectAllItems()
+	{
+		FragmentManager fm = getSupportFragmentManager();
+		Fragment f = fm.findFragmentById(R.id.foldersync_detail_container);
+		fm.beginTransaction().remove(f).commit();
 	}
 	
 	@Override
@@ -130,6 +149,9 @@ public class FolderSyncListActivity extends ActionBarActivity implements FolderS
 	
 	private void showTutorial()
 	{
-		
+		View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_info, null);
+		final TextView infoTextView = (TextView) dialogView.findViewById(R.id.tutorial_text);
+		infoTextView.setText(R.string.dialog_tutorial_text);
+		new AlertDialog.Builder(FolderSyncListActivity.this).setTitle(R.string.dialog_tutorial_title).setView(dialogView).setPositiveButton(android.R.string.ok, null).create().show();
 	}
 }

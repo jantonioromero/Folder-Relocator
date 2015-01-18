@@ -141,8 +141,8 @@ public class FolderSyncDetailFragment extends Fragment
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
-				mTempFolderSync.setIncludeSubdirectories(!mTempFolderSync.getIncludeSubdirectories());
-				updateUI();
+				mTempFolderSync.setIncludeSubdirectories(isChecked);
+//				updateUI();
 			}
 		});
 		
@@ -152,8 +152,8 @@ public class FolderSyncDetailFragment extends Fragment
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
-				mTempFolderSync.setMoveFiles(!mTempFolderSync.getMoveFiles());
-				updateUI();
+				mTempFolderSync.setMoveFiles(isChecked);
+//				updateUI();
 			}
 		});
 		
@@ -311,6 +311,21 @@ public class FolderSyncDetailFragment extends Fragment
 		mIncludeSubDirsCheck.setChecked(mTempFolderSync.getIncludeSubdirectories());
 		mMoveFilesCheck.setChecked(mTempFolderSync.getMoveFiles());
 		
+		switch (mTempFolderSync.getOnFileExistsBehavior())
+		{
+			case RENAME:
+				mRenameRadioButton.setChecked(true);
+				break;
+			
+			case OVERWRITE:
+				mOverwriteRadioButton.setChecked(true);
+				break;
+			
+			case DO_NOT_COPY:
+				mDoNotCopyRadioButton.setChecked(true);
+				break;
+		}
+		
 		long autosyncInterval = mTempFolderSync.getRepeatInterval();
 		if (autosyncInterval == 0)
 		{
@@ -370,5 +385,10 @@ public class FolderSyncDetailFragment extends Fragment
 			getActivity().finish();
 		
 		SyncAlarmManager.setAlarm(getActivity(), mTempFolderSync);
+		
+		if (getActivity() instanceof FolderSyncListFragment.Callbacks)
+		{
+			((FolderSyncListFragment.Callbacks) getActivity()).onItemUpdated(0);
+		}
 	}
 }

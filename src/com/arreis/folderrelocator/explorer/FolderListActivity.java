@@ -131,7 +131,6 @@ public class FolderListActivity extends ActionBarActivity
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu)
 	{
-		int depth = mFileListManager.getDepthLevel();
 		menu.findItem(R.id.menu_newDirectory).setVisible(mFileListManager.getDepthLevel() > 0);
 		
 		return super.onPrepareOptionsMenu(menu);

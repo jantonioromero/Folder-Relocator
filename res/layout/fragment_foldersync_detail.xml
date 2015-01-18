@@ -88,7 +88,7 @@
 						android:id="@+id/doNothing_radio"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:text="@string/doNotSyncThisFile" />
+						android:text="@string/doNotCopy" />
 				</RadioGroup>
 			</LinearLayout>
 

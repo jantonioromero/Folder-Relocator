@@ -4,7 +4,7 @@
 
 	<item
 		android:id="@+id/menu_newDirectory"
-		android:icon="@drawable/ic_menu_add"
+		android:icon="@drawable/ic_addfolder"
 		android:title="@string/menu_newFolder"
 		app:showAsAction="ifRoom">
 	</item>

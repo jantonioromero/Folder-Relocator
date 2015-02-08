@@ -5,15 +5,34 @@
 	<ListView
 		android:id="@+id/listView"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent" />
+		android:layout_height="match_parent"
+		android:choiceMode="singleChoice"
+		android:listSelector="@color/cell_selected" />
 
-	<TextView
-		android:id="@+id/text_noSyncs"
+	<LinearLayout
+		android:id="@+id/view_noSyncs"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
-		android:gravity="center"
-		android:text="@string/noSyncs"
-		android:visibility="gone" />
+		android:orientation="vertical"
+		android:visibility="gone" >
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:padding="12dp"
+			android:text="@string/noSyncs"
+			android:textColor="@android:color/darker_gray"
+			android:textSize="20sp" />
+
+		<Button
+			android:id="@+id/button_newSync"
+			style="@style/bigButton"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="@string/newSync_caps" />
+	</LinearLayout>
 
 </FrameLayout>

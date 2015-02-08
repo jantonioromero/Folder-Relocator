@@ -46,7 +46,7 @@ public class SyncAlarmService extends IntentService
 	
 	private void showSyncNotification(FolderSync sync)
 	{
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_launcher).setContentTitle(getString(R.string.message_syncInProgress_title)).setContentText(String.format(getString(R.string.message_syncInProgress_description), sync.getSourcePath(), sync.getDestinationPath()));
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ab_logo).setContentTitle(getString(R.string.message_syncInProgress_title)).setContentText(String.format(getString(R.string.message_syncInProgress_description), sync.getSourcePath(), sync.getDestinationPath()));
 		
 //		Intent resultIntent = new Intent(this, ResultActivity.class);
 //		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);

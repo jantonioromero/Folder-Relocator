@@ -28,6 +28,7 @@ import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 import com.arreis.folderrelocator.datamodel.alarm.SyncAlarmManager;
 import com.arreis.folderrelocator.explorer.FolderListActivity;
+import com.arreis.folderrelocator.explorer.FolderListActivityDialog;
 import com.arreis.util.AFileListManager.AFileCopyDestinationFileExistsBehavior;
 
 public class FolderSyncDetailFragment extends Fragment
@@ -45,8 +46,7 @@ public class FolderSyncDetailFragment extends Fragment
 	private RadioButton mRenameRadioButton;
 	private RadioButton mOverwriteRadioButton;
 	private RadioButton mDoNotCopyRadioButton;
-	private RadioButton mNoAutoSyncRadio;
-	private RadioButton mAutoSyncRadio;
+	private CheckBox mAutoSyncCheck;
 	private Spinner mAutoSyncSpinner;
 	
 	private String[] mAutoSyncIntervalStrings;
@@ -117,9 +117,7 @@ public class FolderSyncDetailFragment extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				Intent intent = new Intent(getActivity(), FolderListActivity.class);
-				intent.putExtra(FolderListActivity.ARG_SELECTEDPATH, mTempFolderSync.getSourcePath());
-				startActivityForResult(intent, REQUEST_SOURCEPATH);
+				goToFolderList(true);
 			}
 		});
 		
@@ -129,9 +127,7 @@ public class FolderSyncDetailFragment extends Fragment
 			@Override
 			public void onClick(View v)
 			{
-				Intent intent = new Intent(getActivity(), FolderListActivity.class);
-				intent.putExtra(FolderListActivity.ARG_SELECTEDPATH, mTempFolderSync.getDestinationPath());
-				startActivityForResult(intent, REQUEST_DESTINATIONPATH);
+				goToFolderList(false);
 			}
 		});
 		
@@ -196,31 +192,14 @@ public class FolderSyncDetailFragment extends Fragment
 			}
 		});
 		
-		mNoAutoSyncRadio = (RadioButton) rootView.findViewById(R.id.noAutoSync_radio);
-		mNoAutoSyncRadio.setOnCheckedChangeListener(new OnCheckedChangeListener()
+		mAutoSyncCheck = (CheckBox) rootView.findViewById(R.id.check_autosync);
+		mAutoSyncCheck.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
-				if (isChecked)
-				{
-					mTempFolderSync.setRepeatInterval(0);
-					mAutoSyncSpinner.setEnabled(false);
-				}
-			}
-		});
-		
-		mAutoSyncRadio = (RadioButton) rootView.findViewById(R.id.autoSyncEvery_radio);
-		mAutoSyncRadio.setOnCheckedChangeListener(new OnCheckedChangeListener()
-		{
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-			{
-				if (isChecked)
-				{
-					mTempFolderSync.setRepeatInterval(mAutoSyncIntervalValues[mAutoSyncSpinner.getSelectedItemPosition()]);
-					mAutoSyncSpinner.setEnabled(true);
-				}
+				mTempFolderSync.setRepeatInterval(isChecked ? 0 : mAutoSyncIntervalValues[mAutoSyncSpinner.getSelectedItemPosition()]);
+				mAutoSyncSpinner.setEnabled(isChecked);
 			}
 		});
 		
@@ -306,8 +285,8 @@ public class FolderSyncDetailFragment extends Fragment
 	private void updateUI()
 	{
 		mAliasEdit.setText(mTempFolderSync.getAlias() == null ? "" : mTempFolderSync.getAlias());
-		mSourceButton.setText(mTempFolderSync.getSourcePath() == null ? getString(R.string.syncSource) : String.format("%s - %s", getString(R.string.syncSource), mTempFolderSync.getSourcePath()));
-		mDestinationButton.setText(mTempFolderSync.getDestinationPath() == null ? getString(R.string.syncDestination) : String.format("%s - %s", getString(R.string.syncDestination), mTempFolderSync.getDestinationPath()));
+		mSourceButton.setText(mTempFolderSync.getSourcePath() == null ? getString(R.string.syncSource) : mTempFolderSync.getSourcePath());
+		mDestinationButton.setText(mTempFolderSync.getDestinationPath() == null ? getString(R.string.syncDestination) : mTempFolderSync.getDestinationPath());
 		mIncludeSubDirsCheck.setChecked(mTempFolderSync.getIncludeSubdirectories());
 		mMoveFilesCheck.setChecked(mTempFolderSync.getMoveFiles());
 		
@@ -329,12 +308,12 @@ public class FolderSyncDetailFragment extends Fragment
 		long autosyncInterval = mTempFolderSync.getRepeatInterval();
 		if (autosyncInterval == 0)
 		{
-			mNoAutoSyncRadio.setChecked(true);
+			mAutoSyncCheck.setChecked(false);
 			mAutoSyncSpinner.setEnabled(false);
 		}
 		else
 		{
-			mAutoSyncRadio.setChecked(true);
+			mAutoSyncCheck.setChecked(true);
 			mAutoSyncSpinner.setEnabled(true);
 			
 			for (int i = 0; i < mAutoSyncIntervalStrings.length; i++)
@@ -389,6 +368,24 @@ public class FolderSyncDetailFragment extends Fragment
 		if (getActivity() instanceof FolderSyncListFragment.Callbacks)
 		{
 			((FolderSyncListFragment.Callbacks) getActivity()).onItemUpdated(0);
+		}
+	}
+	
+	private void goToFolderList(boolean requestSource)
+	{
+		Intent intent = new Intent(getActivity(), getResources().getBoolean(R.bool.asTablet) ? FolderListActivityDialog.class : FolderListActivity.class);
+		
+		if (requestSource)
+		{
+			intent.putExtra(FolderListActivity.ARG_REQUESTISSOURCE, true);
+			intent.putExtra(FolderListActivity.ARG_SELECTEDPATH, mTempFolderSync.getSourcePath());
+			startActivityForResult(intent, REQUEST_SOURCEPATH);
+		}
+		else
+		{
+			intent.putExtra(FolderListActivity.ARG_REQUESTISSOURCE, false);
+			intent.putExtra(FolderListActivity.ARG_SELECTEDPATH, mTempFolderSync.getDestinationPath());
+			startActivityForResult(intent, REQUEST_DESTINATIONPATH);
 		}
 	}
 }

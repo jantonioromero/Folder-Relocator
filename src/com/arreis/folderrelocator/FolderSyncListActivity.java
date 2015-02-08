@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
-public class FolderSyncListActivity extends ActionBarActivity implements FolderSyncListFragment.Callbacks
+public class FolderSyncListActivity extends BaseActivity implements FolderSyncListFragment.Callbacks
 {
 //	private static final int REQUEST_NEW_FOLDERSYNC = 10;
 //	private static final int REQUEST_EDIT_FOLDERSYNC = 11;
@@ -33,6 +32,7 @@ public class FolderSyncListActivity extends ActionBarActivity implements FolderS
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_foldersync_list);
 		
 		if (findViewById(R.id.foldersync_detail_container) != null)
@@ -144,6 +144,7 @@ public class FolderSyncListActivity extends ActionBarActivity implements FolderS
 	@Override
 	public void onItemUpdated(int position)
 	{
+		deselectAllItems();
 		((FolderSyncListFragment) getSupportFragmentManager().findFragmentById(R.id.foldersync_list)).updateDBDataAndRefresh();
 	}
 	

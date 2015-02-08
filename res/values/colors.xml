@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<color name="primary">#00A499</color>
+	<color name="secondary">#009688</color>
+	<color name="accent">#FFCA00</color>
+	<color name="background">#FFF</color>
+	<color name="background_secondary">#F5F5F5</color>
+	<color name="accent_pressed">#FFC107</color>
+	<color name="cell_selected">#1EFFCA00</color>
+
+</resources>

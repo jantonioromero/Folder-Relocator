@@ -5,7 +5,7 @@
 	android:versionName="1.0" >
 
 	<uses-sdk
-		android:minSdkVersion="8"
+		android:minSdkVersion="11"
 		android:targetSdkVersion="21" />
 
 	<uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
@@ -35,6 +35,10 @@
 				android:value="com.arreis.folderrelocator.FolderSyncListActivity" />
 		</activity>
 		<activity android:name=".explorer.FolderListActivity" >
+		</activity>
+		<activity
+			android:name=".explorer.FolderListActivityDialog"
+			android:theme="@style/DialogActivity" >
 		</activity>
 
 		<receiver

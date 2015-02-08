@@ -7,7 +7,15 @@
 	<TextView
 		android:id="@+id/textView"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
+		android:layout_height="wrap_content"
+		android:background="@color/primary"
+		android:paddingBottom="10dp"
+		android:paddingEnd="10dp"
+		android:paddingLeft="40dp"
+		android:paddingRight="10dp"
+		android:paddingStart="40dp"
+		android:paddingTop="10dp"
+		android:textColor="@android:color/white" />
 
 	<ListView
 		android:id="@+id/listView"
@@ -17,8 +25,9 @@
 
 	<Button
 		android:id="@+id/select_button"
+		style="@style/bigButton"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="@string/select" />
+		android:text="@string/selectThisFolder_caps" />
 
 </LinearLayout>

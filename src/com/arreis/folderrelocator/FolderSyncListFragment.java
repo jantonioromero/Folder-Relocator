@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.arreis.folderrelocator.FolderSyncCell.FolderSyncCellListener;
 import com.arreis.folderrelocator.datamodel.FolderSync;
@@ -29,7 +29,7 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 	private Callbacks mCallbacks = sDummyCallbacks;
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 	
-	private TextView mNoSyncsText;
+	private View mNoSyncsView;
 	private ListView mListView;
 	
 	private SyncListAdapter mAdapter;
@@ -77,7 +77,15 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 	{
 		View rootView = inflater.inflate(R.layout.fragment_foldersync_list, container, false);
 		
-		mNoSyncsText = (TextView) rootView.findViewById(R.id.text_noSyncs);
+		mNoSyncsView = rootView.findViewById(R.id.view_noSyncs);
+		((Button) rootView.findViewById(R.id.button_newSync)).setOnClickListener(new OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				mCallbacks.onItemSelected(-1);
+			}
+		});
 		
 		mAdapter = new SyncListAdapter();
 		mListView = (ListView) rootView.findViewById(R.id.listView);
@@ -96,7 +104,7 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
 			{
 				final FolderSync selectedSync = mFolderSyncs.get(position);
-				new AlertDialog.Builder(getActivity()).setMessage(String.format(getString(R.string.message_deleteFolderSync), selectedSync.getAlias())).setPositiveButton(android.R.string.yes, new OnClickListener()
+				new AlertDialog.Builder(getActivity()).setMessage(String.format(getString(R.string.message_deleteFolderSync), selectedSync.getAlias())).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
 				{
 					@Override
 					public void onClick(DialogInterface dialog, int which)
@@ -202,7 +210,7 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 			if (mFolderSyncs != null)
 				res = mFolderSyncs.size();
 			
-			mNoSyncsText.setVisibility(res == 0 ? View.VISIBLE : View.GONE);
+			mNoSyncsView.setVisibility(res == 0 ? View.VISIBLE : View.GONE);
 			
 			return res;
 		}

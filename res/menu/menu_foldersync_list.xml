@@ -4,13 +4,13 @@
 
 	<item
 		android:id="@+id/menu_tutorial"
-		android:icon="@drawable/ic_menu_help"
+		android:icon="@drawable/ic_help"
 		android:title="@string/menu_help"
 		app:showAsAction="ifRoom">
 	</item>
 	<item
 		android:id="@+id/menu_newSync"
-		android:icon="@drawable/ic_menu_add"
+		android:icon="@drawable/ic_addsync_ab"
 		android:title="@string/menu_newSync"
 		app:showAsAction="ifRoom">
 	</item>

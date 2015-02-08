@@ -2,19 +2,38 @@
 <com.arreis.folderrelocator.explorer.FolderCell xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
-	android:padding="16dp" >
-
-	<TextView
-		android:id="@+id/textView"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content" />
+	android:orientation="horizontal"
+	android:padding="10dp" >
 
 	<ImageView
-		android:id="@+id/upIcon_image"
+		android:id="@+id/image_icon"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_marginEnd="10dp"
+		android:layout_marginRight="10dp"
 		android:contentDescription="@null"
-		android:src="@drawable/ic_menu_back"
+		android:src="@drawable/ic_back"
+		android:visibility="gone" />
+
+	<TextView
+		android:id="@+id/text_title"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_weight="1" />
+
+	<Button
+		android:id="@+id/button_select"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:background="@null"
+		android:focusable="false"
+		android:focusableInTouchMode="false"
+		android:text="@string/select_caps"
+		android:textColor="@color/primary"
+		android:textStyle="bold"
 		android:visibility="gone" />
 
 </com.arreis.folderrelocator.explorer.FolderCell>

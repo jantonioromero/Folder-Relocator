@@ -3,23 +3,26 @@ package com.arreis.folderrelocator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import com.arreis.folderrelocator.datamodel.FolderSync;
 
-public class FolderSyncDetailActivity extends ActionBarActivity
+public class FolderSyncDetailActivity extends BaseActivity
 {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_foldersync_detail);
 		
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		FolderSync syncToEdit = (FolderSync) getIntent().getSerializableExtra(FolderSyncDetailFragment.ARG_FOLDERSYNC);
+		
+//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayUseLogoEnabled(false);
+		getSupportActionBar().setTitle(syncToEdit == null ? R.string.newSync : R.string.editSync);
 		
 		FolderSyncDetailFragment fragment = new FolderSyncDetailFragment();
-		FolderSync syncToEdit = (FolderSync) getIntent().getSerializableExtra(FolderSyncDetailFragment.ARG_FOLDERSYNC);
 		if (syncToEdit != null)
 		{
 			Bundle arguments = new Bundle();

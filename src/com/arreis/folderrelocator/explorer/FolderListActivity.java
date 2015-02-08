@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,36 +23,63 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arreis.folderrelocator.BaseActivity;
 import com.arreis.folderrelocator.R;
+import com.arreis.folderrelocator.explorer.FolderCell.FolderCellType;
+import com.arreis.folderrelocator.explorer.FolderCell.IFolderCellListener;
 import com.arreis.util.AFileListManager.AFileListShowBackMode;
 import com.arreis.util.AFileListManager.AFileListShowFilesMode;
 import com.arreis.util.APublicFileListManager;
 
-public class FolderListActivity extends ActionBarActivity
+public class FolderListActivity extends BaseActivity implements IFolderCellListener
 {
+	public static final String ARG_REQUESTISSOURCE = "ARG_REQUESTISSOURCE";
 	public static final String ARG_SELECTEDPATH = "ARG_SELECTEDPATH";
 	
 	private TextView mCurrentDirTextView;
 	private Button mSelectButton;
 	
+	private boolean mRequestIsSource;
 	private APublicFileListManager mFileListManager;
 	private FolderListAdapter mAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+//		if (getResources().getBoolean(R.bool.asTablet))
+//		{
+//			setTheme(R.style.dialog);
+//			
+////			requestWindowFeature(Window.FEATURE_ACTION_BAR);
+//			getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND, WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+//			LayoutParams params = getWindow().getAttributes();
+//			params.height = 850;
+//			params.width = 850; //fixed width
+//			params.alpha = 1.0f;
+//			params.dimAmount = 0.5f;
+//			getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+//		}
+		
 		super.onCreate(savedInstanceState);
 		
 		setResult(RESULT_CANCELED);
 		
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		
 		String initialPath = null;
 		if (savedInstanceState != null)
+		{
 			initialPath = savedInstanceState.getString(ARG_SELECTEDPATH);
+			mRequestIsSource = savedInstanceState.getBoolean(ARG_REQUESTISSOURCE, false);
+		}
 		else
+		{
 			initialPath = getIntent().getStringExtra(ARG_SELECTEDPATH);
+			mRequestIsSource = getIntent().getBooleanExtra(ARG_REQUESTISSOURCE, false);
+		}
+		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setTitle(String.format(getString(R.string.choosing), getString(mRequestIsSource ? R.string.syncSource : R.string.syncDestination)));
 		
 		mFileListManager = new APublicFileListManager(AFileListShowFilesMode.DIRECTORIES_ONLY);
 		mFileListManager.setShowBackMode(AFileListShowBackMode.NEVER);
@@ -73,10 +99,7 @@ public class FolderListActivity extends ActionBarActivity
 			@Override
 			public void onClick(View v)
 			{
-				Intent data = new Intent();
-				data.putExtra(ARG_SELECTEDPATH, mFileListManager.getCurrentDirectory().getAbsolutePath());
-				setResult(RESULT_OK, data);
-				finish();
+				selectPathAndFinish(mFileListManager.getCurrentDirectory());
 			}
 		});
 		
@@ -182,8 +205,17 @@ public class FolderListActivity extends ActionBarActivity
 	
 	private void updateUI()
 	{
-		mCurrentDirTextView.setText((mFileListManager.getDepthLevel() == 0) ? "" : mFileListManager.getCurrentDirectory().getAbsolutePath());
-		mSelectButton.setEnabled(mFileListManager.getDepthLevel() >= 2); // Prevent user from selecting a base public directory
+		if (mFileListManager.getDepthLevel() == 0)
+		{
+			mCurrentDirTextView.setVisibility(View.GONE);
+		}
+		else
+		{
+			mCurrentDirTextView.setVisibility(View.VISIBLE);
+			mCurrentDirTextView.setText(mFileListManager.getCurrentDirectory().getAbsolutePath());
+		}
+		
+		mSelectButton.setVisibility(mFileListManager.getDepthLevel() >= 2 ? View.VISIBLE : View.GONE); // Prevent user from selecting a base public directory
 		supportInvalidateOptionsMenu();
 	}
 	
@@ -222,11 +254,32 @@ public class FolderListActivity extends ActionBarActivity
 			if (cell == null)
 			{
 				cell = (FolderCell) LayoutInflater.from(FolderListActivity.this).inflate(R.layout.cell_folder, null);
+				cell.setListener(FolderListActivity.this);
 			}
 			
-			cell.setFolderName(getItem(position));
+			cell.setFolderName(getItem(position), position);
+			
+			if (mFileListManager.getDepthLevel() == 0)
+				cell.setFolderType(position == 0 ? FolderCellType.INTERNAL_ROOT : FolderCellType.EXTERNAL_ROOT);
+			else
+				cell.setFolderType(FolderCellType.FOLDER);
 			
 			return cell;
 		}
+	}
+	
+	@Override
+	public void folderCellSelectButtonPressed(int index)
+	{
+		selectPathAndFinish(mFileListManager.getFileList().get(index));
+	}
+	
+	private void selectPathAndFinish(File path)
+	{
+		Intent data = new Intent();
+		data.putExtra(ARG_SELECTEDPATH, path.getAbsolutePath());
+		setResult(RESULT_OK, data);
+		finish();
+		
 	}
 }

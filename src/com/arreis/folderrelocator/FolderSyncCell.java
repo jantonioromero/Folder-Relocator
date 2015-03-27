@@ -22,11 +22,6 @@ public class FolderSyncCell extends LinearLayout
 	private TextView mTextView;
 	private ImageButton mSyncButton;
 	
-//	public FolderSyncCell(Context context, AttributeSet attrs, int defStyle)
-//	{
-//		super(context, attrs, defStyle);
-//	}
-	
 	public FolderSyncCell(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
@@ -66,5 +61,10 @@ public class FolderSyncCell extends LinearLayout
 	{
 		mFolderSync = sync;
 		mTextView.setText(sync.getAlias());
+	}
+	
+	public void setSyncEnabled(boolean enabled)
+	{
+		mSyncButton.setEnabled(enabled);
 	}
 }

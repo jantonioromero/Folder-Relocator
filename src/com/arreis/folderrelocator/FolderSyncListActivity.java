@@ -19,9 +19,6 @@ import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
 public class FolderSyncListActivity extends BaseActivity implements FolderSyncListFragment.Callbacks
 {
-//	private static final int REQUEST_NEW_FOLDERSYNC = 10;
-//	private static final int REQUEST_EDIT_FOLDERSYNC = 11;
-	
 	private static final String PREFS_FIRST_RUN = "com.arreis.FolderRelocator.PREFS_FIRST_RUN";
 	
 	private static final int MAX_SYNCS = 10;
@@ -62,21 +59,6 @@ public class FolderSyncListActivity extends BaseActivity implements FolderSyncLi
 	{
 		switch (item.getItemId())
 		{
-//			case R.id.menu_autosync:
-//			{
-//				if (mTwoPane)
-//				{
-//					ConfigureAutoSyncFragment fragment = new ConfigureAutoSyncFragment();
-//					getSupportFragmentManager().beginTransaction().replace(R.id.foldersync_detail_container, fragment).commit();
-//				}
-//				else
-//				{
-//					Intent intent = new Intent(this, ConfigureAutoSyncActivity.class);
-//					startActivity(intent);
-//				}
-//			}
-//				break;
-//			
 			case R.id.menu_newSync:
 			{
 				if (new FolderSyncDatabaseHelper(this).getFolderSyncs().size() < MAX_SYNCS)
@@ -108,7 +90,10 @@ public class FolderSyncListActivity extends BaseActivity implements FolderSyncLi
 	{
 		FragmentManager fm = getSupportFragmentManager();
 		Fragment f = fm.findFragmentById(R.id.foldersync_detail_container);
-		fm.beginTransaction().remove(f).commit();
+		if (f != null)
+		{
+			fm.beginTransaction().remove(f).commit();
+		}
 	}
 	
 	@Override
@@ -116,8 +101,9 @@ public class FolderSyncListActivity extends BaseActivity implements FolderSyncLi
 	{
 		FolderSync folderSync = null;
 		if (position != -1)
-//			folderSync = FolderSyncManager.getFolderSyncs(this).get(position);
+		{
 			folderSync = new FolderSyncDatabaseHelper(this).getFolderSyncs().get(position);
+		}
 		
 		if (mTwoPane)
 		{

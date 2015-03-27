@@ -46,20 +46,6 @@ public class FolderListActivity extends BaseActivity implements IFolderCellListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-//		if (getResources().getBoolean(R.bool.asTablet))
-//		{
-//			setTheme(R.style.dialog);
-//			
-////			requestWindowFeature(Window.FEATURE_ACTION_BAR);
-//			getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND, WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-//			LayoutParams params = getWindow().getAttributes();
-//			params.height = 850;
-//			params.width = 850; //fixed width
-//			params.alpha = 1.0f;
-//			params.dimAmount = 0.5f;
-//			getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-//		}
-		
 		super.onCreate(savedInstanceState);
 		
 		setResult(RESULT_CANCELED);
@@ -167,7 +153,6 @@ public class FolderListActivity extends BaseActivity implements IFolderCellListe
 			case android.R.id.home:
 			{
 				finish();
-//				overridePendingTransition(android.R.animator.fade_in, android.R.animator.fade_out);
 				return true;
 			}
 			
@@ -182,11 +167,18 @@ public class FolderListActivity extends BaseActivity implements IFolderCellListe
 					{
 						boolean mkdirOk = false;
 						String dirName = newFolderEdit.getText().toString();
-						if (dirName.matches("^[a-zA-Z0-9-_.]*$"))
+						if (dirName.matches("^[a-zA-Z0-9-_. ]*$"))
 						{
-							mkdirOk = mFileListManager.mkdir(dirName);
-							mFileListManager.getFileList(true);
-							mAdapter.notifyDataSetChanged();
+							if (mFileListManager.fileExistsAtCurrentPath(dirName))
+							{
+								Toast.makeText(FolderListActivity.this, R.string.error_newFolderAlreasyExistsError, Toast.LENGTH_SHORT).show();
+							}
+							else
+							{
+								mkdirOk = mFileListManager.mkdir(dirName);
+								mFileListManager.getFileList(true);
+								mAdapter.notifyDataSetChanged();
+							}
 						}
 						
 						if (mkdirOk == false)
@@ -280,6 +272,5 @@ public class FolderListActivity extends BaseActivity implements IFolderCellListe
 		data.putExtra(ARG_SELECTEDPATH, path.getAbsolutePath());
 		setResult(RESULT_OK, data);
 		finish();
-		
 	}
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">Folder Relocator</string>
+	<string name="autosync">Autosincronizar</string>
+	<string name="autosyncEvery">Autosincronizar cada…</string>
+	<string name="choosing" formatted="false">Eligiendo %s</string>
+	<string name="doNotCopy">No copiar</string>
+	<string name="dontAutosync">No autosincronizar</string>
+	<string name="editSync">Editar sincronización</string>
+	<string name="menu_autosync">Autosincronización</string>
+	<string name="menu_help">Ayuda</string>
+	<string name="menu_newSync">Añadir…</string>
+	<string name="menu_newFolder">Nueva carpeta…</string>
+	<string name="newSync">Nueva sincronización</string>
+	<string name="newSync_caps">NUEVA SINCRONIZACIÓN</string>
+	<string name="noSyncs">Aún no has creado ninguna sincronización</string>
+	<string name="onOverwriteFile">Si un fichero con el mismo nombre ya existe en el destino…</string>
+	<string name="overwrite">Sobreescribir</string>
+	<string name="rename">Renombrar</string>
+	<string name="save">GUARDAR</string>
+	<string name="selectThisFolder_caps">SELECCIONAR ESTA CARPETA</string>
+	<string name="select_caps">SELECCIONAR</string>
+	<string name="synchronize">Sincronizar</string>
+	<string name="syncAlias">Alias</string>
+	<string name="syncSource">Origen</string>
+	<string name="syncDestination">Destino</string>
+	<string name="syncIncludeSubDirs">Incluir subcarpetas</string>
+	<string name="syncMoveFiles">Mover contenido (se borrarán del origen)</string>
+	<string name="syncInterval_10s">Cada 10 segundos</string>
+	<string name="syncInterval_30s">Cada 30 segundos</string>
+	<string name="syncInterval_1h">Cada hora</string>
+	<string name="syncInterval_6h">Cada 6 horas</string>
+	<string name="syncInterval_12h">Cada 12 horas</string>
+	<string name="syncInterval_1d">Cada día</string>
+	<string name="syncInterval_7d">Cada 7 días</string>
+	<string name="syncInterval_14d">Cada 14 días</string>
+	<string name="syncInterval_30d">Cada 30 días</string>
+	<string name="error_newFolderAlreasyExistsError">Ya hay una carpeta con ese nombre</string>
+	<string name="error_newFolderError">No se pudo crear la carpeta</string>
+	<string name="error_noAlias">Debes ponerle un alias a esta sincronización.</string>
+	<string name="error_noSourceOrDest">Debes dar un origen y un destino a esta sincronización.</string>
+	<string name="error_sourceAndDestAreSame">Las carpetas de origen y destino son iguales.</string>
+	<string name="error_tooManySyncs" formatted="false">No puedes tener más de %d sincronizaciones activas a la vez.</string>
+	<string name="message_deleteFolderSync" formatted="false">¿Estás seguro de que quieres borrar la sincronización %s?</string>
+	<string name="message_syncInProgress_title">Sincronizando</string>
+	<string name="message_syncInProgress_description" formatted="false">Copiando contenido de %s1 a %s2</string>
+	<string name="dialog_overwrite_title">¡Atención!</string>
+	<string name="dialog_overwrite_message">Esta opción sobreescribirá los ficheros de la carpeta de destino. ¡Si se copia un fichero con el mismo nombre que otro, el más antiguo se perderá! ¿Estás seguro de que quieres esto?</string>
+	<string name="dialog_overwrite_changeToRename">Cambiar a \"Renombrar\"</string>
+	<string name="dialog_newDirectory_title">Nueva carpeta</string>
+	<string name="dialog_newDirectory_message">Nombre de la nueva carpeta</string>
+	<string name="dialog_tutorial_title">¿Cómo funciona esto?</string>
+	<string name="dialog_tutorial_text">¡Fácil! \n\nEn primer lugar, pulsa el botón \"+\" para configurar una nueva sincronización. Dale un nombre para identificarla, selecciona las carpetas de origen y destino (puedes crear una nueva carpeta para el destino, si quieres), y comprueba las opciones de configuración de la sincronización, como que se incluyan subcarpetas o que los ficheros se muevan en lugar de copiarse. \nFinalmente, puedes elegir si quieres realizar la sincronización manualmente (Pulsando el botón en la lista) o automáticamente cada cierto tiempo. \n\nPor ejemplo, digamos que quieres mover de forma periódica todas las imágenes de Whatsapp de la memoria interna de tu teléfono a una carpeta de tu tarjeta SD. Todo lo que tienes que hacer es: \n\n1. Pulsa el botón \"+\".\n2. Dale un nombre a tu sincronización (por ejemplo \"Whatsapp\")\n3. Pulsa el botón \"Origen\", navega hasta la carpeta de tus imágenes de Whatsapp (normalmente está en \"WhatsApp/Media/WhatsApp Images\") y pulsa \"Seleccionar\".\n4. Pulsa el botón \"Destino\", navega hasta donde quieres que se copien las imágenes (por ejemplo una nueva carpeta llamada \"Imágenes de WhatsApp\" en la raíz de tu tarjeta SD) y pulsa \"Seleccionar\".\n5. Marca las casillas \"Mover contenido\", ya que queremos quitar las imágenes de la memoria interna del teléfono, y \"Renombrar\", de forma que no se sobreescriba ninguna imagen.\n6. Selecciona \"Autosincronizar cada…\" y cambia el intervalo a 14 días.\n7. Pulsa \"Guardar\", ¡y ya está! \n\nAhora todas tus imágenes de Whatsapp se moverán a tu tarjeta SD cada 14 días, sin que tú tengas que hacer nada.\n</string>
+
+</resources>

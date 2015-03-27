@@ -1,13 +1,8 @@
 package com.arreis.folderrelocator.datamodel.alarm;
 
 import android.app.IntentService;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
-import com.arreis.folderrelocator.R;
 import com.arreis.folderrelocator.datamodel.FolderSync;
 import com.arreis.folderrelocator.datamodel.FolderSyncDatabaseHelper;
 
@@ -35,31 +30,10 @@ public class SyncAlarmService extends IntentService
 				}
 				else
 				{
-					showSyncNotification(folderSync);
-					Toast.makeText(getApplicationContext(), "Scheduled sync", Toast.LENGTH_SHORT).show();
-					folderSync.runSynchronization();
-					hideNotification(folderSync);
+//					Toast.makeText(getApplicationContext(), "Scheduled sync", Toast.LENGTH_SHORT).show();
+					folderSync.runSynchronization(this);
 				}
 			}
 		}
-	}
-	
-	private void showSyncNotification(FolderSync sync)
-	{
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ab_logo).setContentTitle(getString(R.string.message_syncInProgress_title)).setContentText(String.format(getString(R.string.message_syncInProgress_description), sync.getSourcePath(), sync.getDestinationPath()));
-		
-//		Intent resultIntent = new Intent(this, ResultActivity.class);
-//		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-//		stackBuilder.addParentStack(ResultActivity.class);
-//		stackBuilder.addNextIntent(resultIntent);
-//		PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-//		mBuilder.setContentIntent(resultPendingIntent);
-		
-		((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify((int) sync.getId(), builder.build());
-	}
-	
-	private void hideNotification(FolderSync sync)
-	{
-		((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).cancel((int) sync.getId());
 	}
 }

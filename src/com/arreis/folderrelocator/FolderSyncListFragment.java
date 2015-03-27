@@ -4,9 +4,14 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -70,6 +75,15 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		LocalBroadcastManager.getInstance(getActivity()).registerReceiver(new BroadcastReceiver()
+		{
+			@Override
+			public void onReceive(Context context, Intent intent)
+			{
+				mAdapter.notifyDataSetChanged();
+			}
+		}, new IntentFilter(FolderSync.BROADCAST_SYNC_ACTION));
 	}
 	
 	@Override
@@ -238,16 +252,24 @@ public class FolderSyncListFragment extends Fragment implements FolderSyncCellLi
 			}
 			
 			res.setFolderSync(getItem(position));
+			res.setSyncEnabled(!FolderSync.isSinchronizing());
 			
 			return res;
 		}
 	}
 	
 	@Override
-	public void syncButtonPressed(FolderSync sync)
+	public void syncButtonPressed(final FolderSync sync)
 	{
-		// TODO: Bloquear resto de syncs mientras dure el proceso
 		SyncAlarmManager.setAlarm(getActivity(), sync);
-		sync.runSynchronization();
+		
+		new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				sync.runSynchronization(getActivity());
+			}
+		}).start();
 	}
 }

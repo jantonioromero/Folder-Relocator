@@ -2,19 +2,21 @@
 <resources>
 
 	<string-array name="autosync_intervals">
-		<item>Every 10 seconds</item>
-		<item>Every 30 seconds</item>
-		<item>Every 1 hour</item>
-		<item>Every 6 hours</item>
-		<item>Every 12 hours</item>
-		<item>Every 1 day</item>
-		<item>Every 7 days</item>
-		<item>Every 14 days</item>
-		<item>Every 30 days</item>
+
+		<!-- <item>@string/syncInterval_10s</item> -->
+		<!-- <item>@string/syncInterval_30s</item> -->
+		<item>@string/syncInterval_1h</item>
+		<item>@string/syncInterval_6h</item>
+		<item>@string/syncInterval_12h</item>
+		<item>@string/syncInterval_1d</item>
+		<item>@string/syncInterval_7d</item>
+		<item>@string/syncInterval_14d</item>
+		<item>@string/syncInterval_30d</item>
 	</string-array>
 	<string-array name="autosync_interval_values">
-		<item>10</item>
-		<item>30</item>
+
+		<!-- <item>10</item> -->
+		<!-- <item>30</item> -->
 		<item>3600</item>
 		<item>21600</item>
 		<item>43200</item>

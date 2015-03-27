@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.WindowManager.LayoutParams;
 
+import com.arreis.folderrelocator.R;
+
 public class FolderListActivityDialog extends FolderListActivity
 {
 	@Override
@@ -11,7 +13,7 @@ public class FolderListActivityDialog extends FolderListActivity
 	{
 		super.onCreate(savedInstanceState);
 		
-		int dialogHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 640, getResources().getDisplayMetrics());
+		int dialogHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.explorerDialogHeight), getResources().getDisplayMetrics());
 		getWindow().setLayout(LayoutParams.WRAP_CONTENT, dialogHeight);
 	}
 }

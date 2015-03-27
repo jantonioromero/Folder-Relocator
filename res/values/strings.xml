@@ -27,6 +27,16 @@
 	<string name="syncDestination">Destination</string>
 	<string name="syncIncludeSubDirs">Include subfolders</string>
 	<string name="syncMoveFiles">Move contents (will be removed from source)</string>
+	<string name="syncInterval_10s">Every 10 seconds</string>
+	<string name="syncInterval_30s">Every 30 seconds</string>
+	<string name="syncInterval_1h">Every 1 hour</string>
+	<string name="syncInterval_6h">Every 6 hours</string>
+	<string name="syncInterval_12h">Every 12 hours</string>
+	<string name="syncInterval_1d">Every 1 day</string>
+	<string name="syncInterval_7d">Every 7 days</string>
+	<string name="syncInterval_14d">Every 14 days</string>
+	<string name="syncInterval_30d">Every 30 days</string>
+	<string name="error_newFolderAlreasyExistsError">There\'s already a folder with that name</string>
 	<string name="error_newFolderError">Couldn\'t create new folder</string>
 	<string name="error_noAlias">You must provide an alias for the sync.</string>
 	<string name="error_noSourceOrDest">You must provide a source and a destination folder for the sync.</string>
@@ -38,7 +48,7 @@
 	<string name="dialog_overwrite_title">Warning!</string>
 	<string name="dialog_overwrite_message">This configuration will overwrite files in the destination folder. If a file with the same name is copied, the old one will be lost! Is this what you want?</string>
 	<string name="dialog_overwrite_changeToRename">Change to \"Rename\"</string>
-	<string name="dialog_newDirectory_title">New directory</string>
+	<string name="dialog_newDirectory_title">New folder</string>
 	<string name="dialog_newDirectory_message">New folder name</string>
 	<string name="dialog_tutorial_title">How does this work?</string>
 	<string name="dialog_tutorial_text">Easy! \n\nFirst, press the \"+\" button to configure the new sync. Input a name to identify it, select the origin and destination folders (you can create a new folder as destination, if you want), and check the options you want for the sync, like including subfolders and moving instead of copying. \nFinally, you can select if you want the sync to happen manually (by pressing the \"Sync\" button in the sync list) or automatically at a certain interval. \n\nSay, for instance, that you want to periodically move all your Whatsapp pictures from your internal memory to a folder in your SD. All you have to do is: \n\n1. Press the \"+\" button.\n2. Give the sync a name (e.g. \"Whatsapp\")\n3. Press the \"Source\" button, navigate to the Whatsapp images folder (typically \"WhatsApp/Media/WhatsApp Images\") and press \"Select\".\n4. Press the \"Destination\" button, navigate to where you want the images to be copied (e.g. a new folder called \"WhatsApp Images\" in the root of your SD card) and press \"Select\".\n5. Check \"Move contents\", since we want the images out of our internal storage space, and \"Rename\", so we don\'t ancidentally overwrite any images.\n6. Select \"Autosync every…\" and change the interval to 14 days.\n7. Press \"Save\", and it\'s done! \n\nNow all your WhatsApp images will be moved over to your SD Card every 14 days, without any intervention from your part.\n</string>

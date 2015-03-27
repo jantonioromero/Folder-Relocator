@@ -138,7 +138,6 @@ public class FolderSyncDetailFragment extends Fragment
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
 				mTempFolderSync.setIncludeSubdirectories(isChecked);
-//				updateUI();
 			}
 		});
 		
@@ -149,7 +148,6 @@ public class FolderSyncDetailFragment extends Fragment
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
 				mTempFolderSync.setMoveFiles(isChecked);
-//				updateUI();
 			}
 		});
 		

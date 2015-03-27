@@ -23,17 +23,23 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		public static final String COLUMN_NAME_REPEAT_INTERVAL = "repeatInterval";
 	}
 	
-	private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + FolderSyncEntry.TABLE_NAME + " (" + FolderSyncEntry._ID + " INTEGER PRIMARY KEY,"
-			+ FolderSyncEntry.COLUMN_NAME_ALIAS + " TEXT, " + FolderSyncEntry.COLUMN_NAME_SOURCE_PATH + " TEXT, "
-			+ FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH + " TEXT, " + FolderSyncEntry.COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR + " INTEGER, "
-			+ FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES + " INTEGER, " + FolderSyncEntry.COLUMN_NAME_MOVE_FILES + " INTEGER, "
-			+ FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL + " INTEGER" + ")";
+	private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
+			+ FolderSyncEntry.TABLE_NAME + " (" + FolderSyncEntry._ID
+			+ " INTEGER PRIMARY KEY," + FolderSyncEntry.COLUMN_NAME_ALIAS
+			+ " TEXT, " + FolderSyncEntry.COLUMN_NAME_SOURCE_PATH + " TEXT, "
+			+ FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH + " TEXT, "
+			+ FolderSyncEntry.COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR
+			+ " INTEGER, " + FolderSyncEntry.COLUMN_NAME_INCLUDE_SUBDIRECTORIES
+			+ " INTEGER, " + FolderSyncEntry.COLUMN_NAME_MOVE_FILES
+			+ " INTEGER, " + FolderSyncEntry.COLUMN_NAME_REPEAT_INTERVAL
+			+ " INTEGER" + ")";
 	
-	private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + FolderSyncEntry.TABLE_NAME;
+	private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS "
+			+ FolderSyncEntry.TABLE_NAME;
 	
 	// If you change the database schema, you must increment the database version.
 	public static final int DATABASE_VERSION = 1;
-	public static final String DATABASE_NAME = "FolderSync.db";
+	public static final String DATABASE_NAME = "FolderSync.sqlite";
 	
 	private static ArrayList<FolderSync> sFolderSyncs;
 	
@@ -122,7 +128,8 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 			
 			while (c.isAfterLast() == false)
 			{
-				sFolderSyncs.add(new FolderSync(c.getLong(c.getColumnIndex(FolderSyncEntry._ID)),
+				sFolderSyncs.add(new FolderSync(
+						c.getLong(c.getColumnIndex(FolderSyncEntry._ID)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ALIAS)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_SOURCE_PATH)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH)),
@@ -159,12 +166,15 @@ public class FolderSyncDatabaseHelper extends SQLiteOpenHelper
 		if (res == null)
 		{
 			SQLiteDatabase db = getReadableDatabase();
-			Cursor c = db.query(FolderSyncEntry.TABLE_NAME, new String[] { "*" }, FolderSyncEntry._ID + "=?", new String[] { String.valueOf(syncId) }, null, null, null);
+			Cursor c = db.query(FolderSyncEntry.TABLE_NAME, new String[] { "*" }, FolderSyncEntry._ID
+					+ "=?", new String[] { String.valueOf(syncId) }, null, null, null);
 			c.moveToFirst();
 			
 			if (c.isAfterLast() == false)
 			{
-				res = new FolderSync(c.getLong(c.getColumnIndex(FolderSyncEntry._ID)), c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ALIAS)),
+				res = new FolderSync(
+						c.getLong(c.getColumnIndex(FolderSyncEntry._ID)),
+						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ALIAS)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_SOURCE_PATH)),
 						c.getString(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_DESTINATION_PATH)),
 						c.getInt(c.getColumnIndex(FolderSyncEntry.COLUMN_NAME_ON_FILE_EXISTS_BEHAVIOR)),

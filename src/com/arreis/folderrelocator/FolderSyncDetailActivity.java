@@ -18,7 +18,6 @@ public class FolderSyncDetailActivity extends BaseActivity
 		
 		FolderSync syncToEdit = (FolderSync) getIntent().getSerializableExtra(FolderSyncDetailFragment.ARG_FOLDERSYNC);
 		
-//		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayUseLogoEnabled(false);
 		getSupportActionBar().setTitle(syncToEdit == null ? R.string.newSync : R.string.editSync);
 		
